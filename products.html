@@ -520,72 +520,15 @@
             display: none;
         }
 
-        /* ── PLACEHOLDER IMAGE ── */
-        .card-image {
-            aspect-ratio: 16/10;
-            position: relative;
-            overflow: hidden;
-            background: var(--surface-raised);
-        }
 
-        /* Styled placeholder — shows brand + name + icon */
-        .card-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
 
-        /* subtle gradient background per brand */
-        .card-placeholder::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 30% 40%, rgba(62, 207, 142, 0.06) 0%, transparent 65%);
-        }
-
-        .placeholder-icon {
-            font-size: 2.2rem;
-            opacity: 0.5;
-            position: relative;
-            z-index: 1;
-        }
-
-        .placeholder-brand {
-            font-family: var(--font-body);
-            font-size: 0.68rem;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: rgba(62, 207, 142, 0.5);
-            position: relative;
-            z-index: 1;
-        }
-
-        .placeholder-name {
-            font-family: var(--font-display);
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.2);
-            text-align: center;
-            line-height: 1.3;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Real img if added later */
         .card-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            padding: 0.5rem;
+            display: block;
             transition: transform 0.4s ease;
-            position: absolute;
-            inset: 0;
         }
 
         .product-card:hover .card-image img {
@@ -610,9 +553,10 @@
         }
 
         .card-badge.gaming {
-            background: rgba(255, 120, 80, 0.15);
-            border-color: rgba(255, 120, 80, 0.3);
-            color: #ff7850;
+            background: rgba(255, 100, 50, 0.25);
+            border-color: rgba(255, 100, 50, 0.6);
+            color: #ff6432;
+            font-weight: 800;
         }
 
         .card-badge.new-tag {
@@ -1023,11 +967,7 @@
                 <div class="product-card" data-brand="Apple" data-category="creative business" data-price="185000"
                     data-name="MacBook Pro 14 M3">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Apple</div>
-                            <div class="placeholder-name">MacBook Pro 14" M3</div>
-                        </div>
+                        <img src="images/laptop-1.jpg" alt="MacBook Pro 14 M3" />
                         <span class="card-badge">Best Seller</span>
                     </div>
                     <div class="card-body">
@@ -1049,11 +989,7 @@
                 <div class="product-card" data-brand="Apple" data-category="student creative" data-price="145000"
                     data-name="MacBook Air 15 M2">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Apple</div>
-                            <div class="placeholder-name">MacBook Air 15" M2</div>
-                        </div>
+                        <img src="images/laptop-2.jpg" alt="MacBook Air 15 M2" />
                         <span class="card-badge">Popular</span>
                     </div>
                     <div class="card-body">
@@ -1075,11 +1011,7 @@
                 <div class="product-card" data-brand="Dell" data-category="creative business" data-price="220000"
                     data-name="Dell XPS 15 OLED">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Dell</div>
-                            <div class="placeholder-name">XPS 15 OLED</div>
-                        </div>
+                        <img src="images/laptop-3.jpg" alt="Dell XPS 15 OLED" />
                         <span class="card-badge">Pro Pick</span>
                     </div>
                     <div class="card-body">
@@ -1101,11 +1033,7 @@
                 <div class="product-card" data-brand="Dell" data-category="student business" data-price="72000"
                     data-name="Dell Inspiron 15">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Dell</div>
-                            <div class="placeholder-name">Inspiron 15</div>
-                        </div>
+                        <img src="images/laptop-4.jpg" alt="Dell Inspiron 15" />
                         <span class="card-badge new-tag">Budget Pick</span>
                     </div>
                     <div class="card-body">
@@ -1127,11 +1055,7 @@
                 <div class="product-card" data-brand="Lenovo" data-category="business" data-price="140000"
                     data-name="Lenovo ThinkPad X1 Carbon">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Lenovo</div>
-                            <div class="placeholder-name">ThinkPad X1 Carbon</div>
-                        </div>
+                        <img src="images/laptop-5.jpg" alt="Lenovo ThinkPad X1 Carbon" />
                         <span class="card-badge">Business</span>
                     </div>
                     <div class="card-body">
@@ -1153,11 +1077,7 @@
                 <div class="product-card" data-brand="Lenovo" data-category="student" data-price="65000"
                     data-name="Lenovo IdeaPad 5">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Lenovo</div>
-                            <div class="placeholder-name">IdeaPad 5 Gen 8</div>
-                        </div>
+                        <img src="images/laptop-6.jpg" alt="Lenovo IdeaPad 5" />
                         <span class="card-badge new-tag">New</span>
                     </div>
                     <div class="card-body">
@@ -1179,11 +1099,7 @@
                 <div class="product-card" data-brand="HP" data-category="creative business" data-price="155000"
                     data-name="HP Spectre x360">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">HP</div>
-                            <div class="placeholder-name">Spectre x360 14"</div>
-                        </div>
+                        <img src="images/laptop-7.jpg" alt="HP Spectre x360" />
                         <span class="card-badge">2-in-1</span>
                     </div>
                     <div class="card-body">
@@ -1205,11 +1121,7 @@
                 <div class="product-card" data-brand="HP" data-category="business" data-price="118000"
                     data-name="HP EliteBook 840">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">HP</div>
-                            <div class="placeholder-name">EliteBook 840 G10</div>
-                        </div>
+                        <img src="images/laptop-8.jpg" alt="HP EliteBook 840" />
                         <span class="card-badge">Enterprise</span>
                     </div>
                     <div class="card-body">
@@ -1231,39 +1143,8 @@
                 <div class="product-card" data-brand="Asus" data-category="gaming" data-price="175000"
                     data-name="Asus ROG Zephyrus G14">
                     <div class="card-image">
-                        <div class="card-placeholder"
-                            style="background:radial-gradient(ellipse at 30% 40%, rgba(255,100,60,0.08) 0%, transparent 65%);">
-                            <div class="placeholder-icon">🎮</div>
-                            <div class="placeholder-brand" style="color:rgba(255,120,80,0.5);">Asus ROG</div>
-                            <div class="placeholder-name">Zephyrus G14 2024</div>
-                        </div>
+                        <img src="images/laptop-9.jpg" alt="Asus ROG Zephyrus G14" />
                         <span class="card-badge gaming">Gaming</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="card-brand">Asus ROG</div>
-                        <div class="card-name">Zephyrus G14 2024</div>
-                        <div class="card-desc">Compact gaming powerhouse with RTX 4060 graphics, 165Hz QHD display, and
-                            Ryzen 9 processor — all in a strikingly slim chassis.</div>
-                        <div class="card-specs"><span class="spec-tag">Ryzen 9 8945HS</span><span class="spec-tag">16GB
-                                RAM</span><span class="spec-tag">RTX 4060</span><span class="spec-tag">165Hz QHD</span>
-                        </div>
-                        <div class="card-footer">
-                            <div class="card-price">KES 175,000 <small>/ unit</small></div>
-                            <a href="product-detail.html?id=asus-rog-g14" class="btn-card">View →</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 10. Asus VivoBook 15 -->
-                <div class="product-card" data-brand="Asus" data-category="student gaming" data-price="58000"
-                    data-name="Asus VivoBook 15">
-                    <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Asus</div>
-                            <div class="placeholder-name">VivoBook 15 X1502</div>
-                        </div>
-                        <span class="card-badge new-tag">Value</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Asus</div>
@@ -1280,21 +1161,38 @@
                     </div>
                 </div>
 
+                <!-- 10. Asus VivoBook 15 -->
+                <div class="product-card" data-brand="Asus" data-category="student gaming" data-price="58000"
+                    data-name="Asus VivoBook 15">
+                    <div class="card-image">
+                        <img src="images/laptop-10.jpg" alt="Asus VivoBook 15" />
+                        <span class="card-badge new-tag">Value</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Asus</div>
+                        <div class="card-name">Asus VivoBook 15 X1502</div>
+                        <div class="card-desc">Great everyday laptop with vibrant OLED display and Intel 12th Gen
+                            processor. Perfect for students who want quality without the premium price.</div>
+                        <div class="card-specs"><span class="spec-tag">i5-12500H</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">15.6"
+                                OLED</span></div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 58,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=asus-vivobook-15" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 11. Microsoft Surface Laptop 5 -->
                 <div class="product-card" data-brand="Microsoft" data-category="business student" data-price="95000"
                     data-name="Microsoft Surface Laptop 5">
                     <div class="card-image">
-                        <div class="card-placeholder"
-                            style="background:radial-gradient(ellipse at 30% 40%, rgba(80,160,255,0.07) 0%, transparent 65%);">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand" style="color:rgba(80,160,255,0.5);">Microsoft</div>
-                            <div class="placeholder-name">Surface Laptop 5</div>
-                        </div>
+                        <img src="images/laptop-11.jpg" alt="Microsoft Surface Laptop 5" />
                         <span class="card-badge">Slim</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Microsoft</div>
-                        <div class="card-name">Surface Laptop 5</div>
+                        <div class="card-name">Microsoft Surface Laptop 5</div>
                         <div class="card-desc">Elegantly slim and beautifully crafted with a high-resolution
                             touchscreen, exceptional keyboard, and tight Windows 11 integration.</div>
                         <div class="card-specs"><span class="spec-tag">i5-1235U</span><span class="spec-tag">8GB
@@ -1311,16 +1209,12 @@
                 <div class="product-card" data-brand="Acer" data-category="student" data-price="55000"
                     data-name="Acer Swift 3">
                     <div class="card-image">
-                        <div class="card-placeholder">
-                            <div class="placeholder-icon">💻</div>
-                            <div class="placeholder-brand">Acer</div>
-                            <div class="placeholder-name">Swift 3 SF314</div>
-                        </div>
+                        <img src="images/laptop-12.jpg" alt="Acer Swift 3" />
                         <span class="card-badge new-tag">Budget</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Acer</div>
-                        <div class="card-name">Swift 3 SF314</div>
+                        <div class="card-name">Acer Swift 3 SF314</div>
                         <div class="card-desc">Lightweight, affordable, and reliable — the Acer Swift 3 is built for
                             students who need a fast, portable laptop without breaking the bank.</div>
                         <div class="card-specs"><span class="spec-tag">Ryzen 5 7530U</span><span class="spec-tag">8GB
