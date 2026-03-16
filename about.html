@@ -4,37 +4,82 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About — PixelCart</title>
+    <title>About Us — PixelCart</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
+
     <style>
-        /* HERO */
-        .about-hero {
+        /* ════════════════════════════
+       ABOUT.HTML — PAGE STYLES
+    ════════════════════════════ */
+
+        /* ── PAGE HEADER ── */
+        .page-header {
             padding: 8rem var(--spacing-xl) 5rem;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 5rem;
+            gap: 4rem;
             align-items: center;
             position: relative;
             overflow: hidden;
         }
 
-        .about-hero::before {
+        .page-header::before {
             content: '';
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(62, 207, 142, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(62, 207, 142, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(62, 207, 142, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(62, 207, 142, 0.04) 1px, transparent 1px);
             background-size: 55px 55px;
+            pointer-events: none;
         }
 
-        .hero-text {
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: -5%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(ellipse, rgba(62, 207, 142, 0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header-text {
             position: relative;
             z-index: 1;
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUp 0.7s ease forwards 0.15s;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .breadcrumb span {
+            color: var(--green);
         }
 
         .section-label {
@@ -46,7 +91,8 @@
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--green);
-            margin-bottom: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
         }
 
         .section-label::before {
@@ -56,31 +102,32 @@
             background: var(--green);
         }
 
-        .hero-title {
+        .page-title {
             font-family: var(--font-display);
             font-size: clamp(2.2rem, 4vw, 3.5rem);
             font-weight: 800;
             color: var(--text-primary);
             line-height: 1.1;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .hero-title span {
+        .page-title span {
             color: var(--green);
         }
 
-        .hero-body {
+        .page-sub {
             font-family: var(--font-body);
             color: var(--text-muted);
             font-size: 0.98rem;
             line-height: 1.8;
-            margin-bottom: 2rem;
+            max-width: 480px;
         }
 
-        .hero-stats {
+        .header-stats {
             display: flex;
             gap: 2rem;
-            padding-top: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
             border-top: 1px solid var(--border);
         }
 
@@ -98,131 +145,467 @@
             color: var(--text-muted);
         }
 
-        /* About visual */
-        .about-visual {
+        /* ── HEADER IMAGE ── */
+        .header-visual {
             position: relative;
             z-index: 1;
+            opacity: 0;
+            transform: translateX(24px);
+            animation: fadeLeft 0.7s ease forwards 0.35s;
+        }
+
+        @keyframes fadeLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .about-img-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
             border-radius: 20px;
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: rgba(255, 255, 255, 0.05);
             overflow: hidden;
+            border: 1px solid var(--border);
+            aspect-ratio: 4/3;
             position: relative;
+            background: var(--surface);
         }
 
-        .about-float {
+        .about-img-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .img-float {
             position: absolute;
             bottom: 1.5rem;
             left: 1.5rem;
-            background: rgba(15, 15, 15, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(12, 12, 12, 0.88);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(62, 207, 142, 0.2);
             border-radius: 12px;
-            padding: 0.9rem 1.2rem;
+            padding: 0.85rem 1.2rem;
         }
 
-        .about-float strong {
+        .img-float strong {
             display: block;
             font-family: var(--font-display);
             font-size: 0.88rem;
             color: var(--text-primary);
+            margin-bottom: 0.15rem;
         }
 
-        .about-float span {
+        .img-float span {
             font-family: var(--font-body);
             font-size: 0.75rem;
             color: var(--text-muted);
         }
 
-        /* MISSION */
-        .mission-section {
-            padding: 5rem var(--spacing-xl);
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-        }
-
-        .mission-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .mission-card {
-            padding: 2rem;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--bg);
-            transition: border-color 0.3s, transform 0.3s;
-        }
-
-        .mission-card:hover {
-            border-color: rgba(62, 207, 142, 0.25);
-            transform: translateY(-4px);
-        }
-
-        .mission-icon {
-            width: 46px;
-            height: 46px;
-            background: rgba(62, 207, 142, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .mission-card h3 {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 0.6rem;
-        }
-
-        .mission-card p {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        /* TEAM */
-        .team-section {
-            padding: 5rem var(--spacing-xl);
-        }
-
-        .sec-header {
-            margin-bottom: 3rem;
-        }
-
+        /* ── SHARED SECTION STYLES ── */
         .sec-title {
             font-family: var(--font-display);
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
             font-weight: 700;
             color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
 
         .sec-sub {
             font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 0.4rem;
+            font-size: 0.92rem;
+            margin-bottom: 3rem;
+        }
+
+        .body-text {
+            font-family: var(--font-body);
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+        }
+
+        .body-text+.body-text {
+            margin-top: 1rem;
+        }
+
+        /* ── BACKGROUND / HISTORY ── */
+        .history-section {
+            padding: 5rem var(--spacing-xl);
+            border-top: 1px solid var(--border);
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .history-text {}
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-shrink: 0;
+            width: 40px;
+        }
+
+        .t-dot {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            background: var(--green);
+            border-radius: 50%;
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 0 1px var(--green);
+            margin-top: 4px;
+        }
+
+        .t-line {
+            width: 1px;
+            flex: 1;
+            background: var(--border);
+            margin-top: 6px;
+        }
+
+        .timeline-item:last-child .t-line {
+            display: none;
+        }
+
+        .timeline-content {
+            padding-bottom: 2.5rem;
+        }
+
+        .t-year {
+            font-family: var(--font-display);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--green);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.3rem;
+        }
+
+        .t-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .t-desc {
+            font-family: var(--font-body);
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ── MISSION & VISION ── */
+        .mv-section {
+            padding: 5rem var(--spacing-xl);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .mv-card {
+            border-radius: 18px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .mv-card:nth-child(1) {
+            animation-delay: 0.1s;
+            background: var(--bg);
+        }
+
+        .mv-card:nth-child(2) {
+            animation-delay: 0.2s;
+            background: var(--bg);
+        }
+
+        .mv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), rgba(62, 207, 142, 0.3));
+        }
+
+        .mv-icon {
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+            display: block;
+        }
+
+        .mv-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+
+        .mv-card p {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .mv-points {
+            list-style: none;
+            margin-top: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .mv-points li {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+
+        .mv-points li::before {
+            content: '✓';
+            color: var(--green);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ── VALUES ── */
+        .values-section {
+            padding: 5rem var(--spacing-xl);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .value-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .value-card:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .value-card:nth-child(2) {
+            animation-delay: .1s;
+        }
+
+        .value-card:nth-child(3) {
+            animation-delay: .15s;
+        }
+
+        .value-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--green), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(62, 207, 142, .25);
+        }
+
+        .value-card:hover::after {
+            opacity: 1;
+        }
+
+        .value-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(62, 207, 142, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .value-card h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .value-card p {
+            font-family: var(--font-body);
+            font-size: 0.83rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* ── SERVICES OFFERED ── */
+        .services-section {
+            padding: 5rem var(--spacing-xl);
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .service-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.6rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: border-color 0.3s, transform 0.3s;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .service-item:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .service-item:nth-child(2) {
+            animation-delay: .1s;
+        }
+
+        .service-item:nth-child(3) {
+            animation-delay: .15s;
+        }
+
+        .service-item:nth-child(4) {
+            animation-delay: .2s;
+        }
+
+        .service-item:nth-child(5) {
+            animation-delay: .25s;
+        }
+
+        .service-item:nth-child(6) {
+            animation-delay: .3s;
+        }
+
+        .service-item:hover {
+            border-color: rgba(62, 207, 142, .25);
+            transform: translateY(-3px);
+        }
+
+        .service-ico {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: rgba(62, 207, 142, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .service-item h4 {
+            font-family: var(--font-display);
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+        }
+
+        .service-item p {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--green);
+            text-decoration: none;
+            margin-top: 0.5rem;
+            transition: gap 0.2s;
+        }
+
+        .service-link:hover {
+            gap: 0.5rem;
+        }
+
+        /* ── TEAM ── */
+        .team-section {
+            padding: 5rem var(--spacing-xl);
         }
 
         .team-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
+            margin-top: 3rem;
         }
 
         .team-card {
@@ -231,11 +614,25 @@
             border-radius: 16px;
             overflow: hidden;
             transition: border-color 0.3s, transform 0.3s;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .team-card:nth-child(1) {
+            animation-delay: .1s;
+        }
+
+        .team-card:nth-child(2) {
+            animation-delay: .2s;
+        }
+
+        .team-card:nth-child(3) {
+            animation-delay: .3s;
         }
 
         .team-card:hover {
-            border-color: rgba(62, 207, 142, 0.25);
-            transform: translateY(-4px);
+            border-color: rgba(62, 207, 142, .25);
+            transform: translateY(-5px);
         }
 
         .team-avatar {
@@ -244,11 +641,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 4.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .team-info {
-            padding: 1.2rem;
+            padding: 1.4rem;
         }
 
         .team-name {
@@ -256,7 +662,7 @@
             font-size: 1rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .team-role {
@@ -264,277 +670,123 @@
             font-size: 0.78rem;
             color: var(--green);
             letter-spacing: 0.06em;
+            margin-bottom: 0.6rem;
         }
 
-        /* CONTACT */
-        .contact-section {
-            padding: 5rem var(--spacing-xl);
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 4rem;
-            margin-top: 3rem;
-            align-items: start;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1.2rem;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            transition: border-color 0.2s;
-        }
-
-        .contact-item:hover {
-            border-color: rgba(62, 207, 142, 0.25);
-        }
-
-        .contact-icon {
-            width: 38px;
-            height: 38px;
-            flex-shrink: 0;
-            background: rgba(62, 207, 142, 0.1);
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-        }
-
-        .contact-item strong {
-            display: block;
-            font-family: var(--font-display);
-            font-size: 0.85rem;
-            color: var(--text-primary);
-            margin-bottom: 0.2rem;
-        }
-
-        .contact-item span {
+        .team-bio {
             font-family: var(--font-body);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
+            line-height: 1.6;
         }
 
-        .contact-item a {
-            color: var(--green);
-            text-decoration: none;
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-        }
-
-        /* FORM */
-        .contact-form {
-            background: var(--bg);
+        /* ── CTA ── */
+        .cta-band {
+            margin: 0 var(--spacing-xl) 5rem;
+            padding: 4rem;
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 2rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .contact-form h3 {
+        .cta-band::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(ellipse, rgba(62, 207, 142, .07) 0%, transparent 65%);
+        }
+
+        .cta-band h2 {
             font-family: var(--font-display);
-            font-size: 1.1rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-            margin-bottom: 1rem;
-        }
-
-        .form-label {
+        .cta-band p {
             font-family: var(--font-body);
-            font-size: 0.78rem;
             color: var(--text-muted);
-            font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        .form-input,
-        .form-textarea,
-        .form-select {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            padding: 0.75rem 1rem;
-            font-family: var(--font-body);
-            font-size: 0.88rem;
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .form-input:focus,
-        .form-textarea:focus,
-        .form-select:focus {
-            border-color: var(--green);
-            box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.1);
-        }
-
-        .form-input::placeholder,
-        .form-textarea::placeholder {
-            color: var(--text-muted);
-            opacity: 0.6;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 110px;
-        }
-
-        .form-select option {
-            background: var(--surface);
-        }
-
-        .btn-submit {
-            width: 100%;
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
             background: var(--green);
             color: #0a0a0a;
             font-family: var(--font-body);
             font-size: 0.9rem;
-            font-weight: 700;
-            padding: 0.9rem;
-            border: none;
-            border-radius: 9px;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 0.5rem;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(62, 207, 142, 0.3);
-        }
-
-        /* FAQ */
-        .faq-section {
-            padding: 5rem var(--spacing-xl);
-        }
-
-        .faq-list {
-            margin-top: 2.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .faq-item {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .faq-q {
-            padding: 1.2rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: var(--font-display);
-            font-size: 0.92rem;
             font-weight: 600;
-            color: var(--text-primary);
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .faq-q:hover {
-            color: var(--green);
-        }
-
-        .faq-toggle {
-            font-size: 1.1rem;
-            transition: transform 0.3s;
-            color: var(--green);
-        }
-
-        .faq-item.open .faq-toggle {
-            transform: rotate(45deg);
-        }
-
-        .faq-a {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease, padding 0.2s;
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            padding: 0 1.5rem;
-        }
-
-        .faq-item.open .faq-a {
-            max-height: 200px;
-            padding: 0 1.5rem 1.2rem;
-        }
-
-        /* FOOTER */
-        footer {
-            border-top: 1px solid var(--border);
-            padding: 2rem var(--spacing-xl);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        footer p {
-            font-family: var(--font-body);
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        footer a {
-            color: var(--green);
+            padding: 0.85rem 2rem;
+            border-radius: 8px;
             text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
         }
 
-        @media (max-width:1024px) {
-            .about-hero {
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(62, 207, 142, .35);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .history-grid {
                 grid-template-columns: 1fr;
             }
 
-            .about-visual {
+            .values-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                grid-template-columns: 1fr;
+            }
+
+            .header-visual {
                 display: none;
             }
 
-            .mission-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .team-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .contact-grid {
+            .mv-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width:640px) {
-            .mission-grid {
+        @media (max-width: 640px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -542,13 +794,14 @@
                 grid-template-columns: 1fr;
             }
 
-            .hero-stats {
-                flex-wrap: wrap;
-                gap: 1.5rem;
+            .cta-band {
+                flex-direction: column;
+                padding: 2.5rem;
             }
 
-            .form-row {
-                grid-template-columns: 1fr;
+            .header-stats {
+                flex-wrap: wrap;
+                gap: 1.5rem;
             }
         }
     </style>
@@ -556,9 +809,12 @@
 
 <body>
 
+    <!-- ══ NAVBAR ══ -->
     <nav class="navbar">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart Logo"
+                style="width:30px;height:30px;object-fit:contain;border-radius:7px;">
+            PixelCart
         </a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -566,9 +822,10 @@
             <li><a href="services.html">Services</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="about.html" class="active">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="cart.html" class="nav-cart">
+            <a href="cart.html" class="nav-cart" title="View Cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
@@ -579,95 +836,274 @@
         </div>
     </nav>
 
-    <!-- ABOUT HERO -->
-    <section class="about-hero">
-        <div class="hero-text">
+    <!-- ══ PAGE HEADER ══ -->
+    <div class="page-header">
+        <div class="header-text">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>About Us</span>
+            </div>
             <div class="section-label">Our story</div>
-            <h1 class="hero-title">
+            <h1 class="page-title">
                 Built in <span>Nairobi</span>,<br>
                 For Nairobi.
             </h1>
-            <p class="hero-body">
-                PixelCart started with one simple idea — Kenyans deserve access to premium laptops
-                with a shopping experience that actually fits their lifestyle. No complicated payment
-                methods. No importing headaches. Just great laptops, delivered fast, paid for with M-Pesa.
+            <p class="page-sub">
+                PixelCart was founded with one clear purpose — give Kenyans access to premium,
+                genuine laptops through a shopping experience designed around how we actually
+                live and pay. No complicated bank cards. Just great tech, fair prices, and M-Pesa.
             </p>
-            <p class="hero-body" style="margin-bottom:0;">
-                We source directly from authorized distributors, keeping prices fair and warranties valid.
-                Every laptop we sell is tested, genuine, and ready to work for you.
-            </p>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <strong>2021</strong>
-                    <span>Founded</span>
-                </div>
-                <div class="stat-item">
-                    <strong>2,400+</strong>
-                    <span>Customers served</span>
-                </div>
-                <div class="stat-item">
-                    <strong>120+</strong>
-                    <span>Models stocked</span>
-                </div>
-                <div class="stat-item">
-                    <strong>4.9★</strong>
-                    <span>Customer rating</span>
-                </div>
+            <div class="header-stats">
+                <div class="stat-item"><strong>2021</strong><span>Founded</span></div>
+                <div class="stat-item"><strong>2,400+</strong><span>Customers Served</span></div>
+                <div class="stat-item"><strong>120+</strong><span>Models Stocked</span></div>
+                <div class="stat-item"><strong>4.9★</strong><span>Customer Rating</span></div>
             </div>
         </div>
-        <div class="about-visual">
+
+        <div class="header-visual">
             <div class="about-img-card">
-                <!-- <img src="images/team-photo.jpg" alt="PixelCart team"> -->
-                🏢
-                <div class="about-float">
-                    <strong>📍 Nairobi, Kenya</strong>
-                    <span>Westlands, off Waiyaki Way</span>
+                <!-- Add your team or store image here -->
+                <img src="images/about.jpg" alt="PixelCart team and store" />
+                <div class="img-float">
+                    <strong>📍 Westlands, Nairobi</strong>
+                    <span>Off Waiyaki Way — visit us anytime</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ BACKGROUND & HISTORY ══ -->
+    <section class="history-section">
+        <div class="history-grid">
+
+            <div class="history-text">
+                <div class="section-label">Background</div>
+                <h2 class="sec-title">How PixelCart Started</h2>
+                <p class="body-text">
+                    PixelCart was born out of frustration. Our founder, Brian Mwangi, spent weeks trying to
+                    buy a quality laptop in Nairobi — only to be met with overpriced grey-market products,
+                    no warranties, and payment methods that didn't work locally. He knew there had to be
+                    a better way.
+                </p>
+                <p class="body-text" style="margin-top:1rem;">
+                    In 2021, PixelCart launched as a small operation out of Westlands with 15 laptop models
+                    and a simple website. Within six months, word spread across universities and tech
+                    communities in Nairobi. By 2023 we had served over 1,000 customers — all paid
+                    for through M-Pesa, all backed by genuine manufacturer warranties.
+                </p>
+                <p class="body-text" style="margin-top:1rem;">
+                    Today PixelCart stocks over 120 laptop models across all major brands, offers
+                    repair and upgrade services, and remains committed to one thing — being the most
+                    trusted laptop store in Kenya.
+                </p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="t-dot"></div>
+                        <div class="t-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="t-year">2021</div>
+                        <div class="t-title">PixelCart Founded</div>
+                        <div class="t-desc">Launched in Westlands with 15 laptop models, a basic website, and a big
+                            vision for making tech accessible to every Kenyan.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="t-dot"></div>
+                        <div class="t-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="t-year">2022</div>
+                        <div class="t-title">M-Pesa Integration</div>
+                        <div class="t-desc">Integrated Safaricom's Daraja API, making PixelCart one of the first laptop
+                            e-commerce sites in Kenya with full M-Pesa STK push checkout.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="t-dot"></div>
+                        <div class="t-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="t-year">2023</div>
+                        <div class="t-title">Repair Services Launched</div>
+                        <div class="t-desc">Opened our in-house repair and upgrade centre, serving students and
+                            professionals with screen replacements, RAM upgrades, and SSD installations.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="t-dot"></div>
+                        <div class="t-line"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="t-year">2024</div>
+                        <div class="t-title">2,000+ Customers</div>
+                        <div class="t-desc">Crossed the 2,000 customer milestone with a 4.9-star rating. Expanded to
+                            120+ models and introduced the Trade-In program.</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-left">
+                        <div class="t-dot"></div>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="t-year">2025</div>
+                        <div class="t-title">Growing Stronger</div>
+                        <div class="t-desc">Continuing to grow, improve delivery speeds, and bring more Kenyans access
+                            to premium laptops at honest prices.</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══ MISSION & VISION ══ -->
+    <section class="mv-section">
+        <div class="section-label">What drives us</div>
+        <h2 class="sec-title">Mission & Vision</h2>
+        <p class="sec-sub">The principles that guide every decision we make</p>
+
+        <div class="mv-grid">
+            <div class="mv-card">
+                <span class="mv-icon">🎯</span>
+                <h3>Our Mission</h3>
+                <p>
+                    To make premium, genuine laptops accessible to every Kenyan — through transparent
+                    pricing, local payment methods, and service that treats customers with respect.
+                </p>
+                <ul class="mv-points">
+                    <li>Stock only genuine, warranty-backed laptops</li>
+                    <li>Accept M-Pesa as the primary payment method</li>
+                    <li>Deliver within Nairobi same day, anywhere in Kenya next day</li>
+                    <li>Offer honest, no-hidden-fee pricing in KES</li>
+                </ul>
+            </div>
+
+            <div class="mv-card">
+                <span class="mv-icon">🔭</span>
+                <h3>Our Vision</h3>
+                <p>
+                    To become Kenya's most trusted technology retail platform — where every student,
+                    professional, and creator can confidently buy, upgrade, and maintain their laptops
+                    without compromise.
+                </p>
+                <ul class="mv-points">
+                    <li>Expand to all major Kenyan cities by 2026</li>
+                    <li>Build the largest laptop repair network in East Africa</li>
+                    <li>Enable 10,000+ Kenyan tech users annually</li>
+                    <li>Be the go-to recommendation for every campus community</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ VALUES ══ -->
+    <section class="values-section">
+        <div class="section-label">Core values</div>
+        <h2 class="sec-title">What We Stand For</h2>
+        <p class="sec-sub">Three principles we never compromise on</p>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>Honest Pricing</h3>
+                <p>Every price on PixelCart is in KES with zero hidden charges. What you see at checkout is exactly what
+                    you pay — M-Pesa confirms it.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🇰🇪</div>
+                <h3>Locally Rooted</h3>
+                <p>We're a Kenyan business built for Kenyan needs. From M-Pesa checkout to same-day Nairobi delivery —
+                    everything is designed around how Kenyans actually live.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">⭐</div>
+                <h3>Quality Guaranteed</h3>
+                <p>Every laptop we sell comes from authorized distributors with valid manufacturer warranties. No grey
+                    market, no refurbished-sold-as-new.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ SERVICES OFFERED ══ -->
+    <section class="services-section">
+        <div class="section-label">What we offer</div>
+        <h2 class="sec-title">Our Services</h2>
+        <p class="sec-sub">Beyond just selling — we support your laptop for its entire life</p>
+
+        <div class="services-grid">
+            <div class="service-item">
+                <div class="service-ico">💻</div>
+                <div>
+                    <h4>Laptop Sales</h4>
+                    <p>120+ models from Apple, Dell, Lenovo, HP, Asus and more. All genuine, all warranted.</p>
+                    <a href="products.html" class="service-link">Browse products →</a>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-ico">🔧</div>
+                <div>
+                    <h4>Laptop Repair</h4>
+                    <p>Screen replacements, keyboard fixes, motherboard repairs and liquid damage recovery.</p>
+                    <a href="services.html" class="service-link">View services →</a>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-ico">⚡</div>
+                <div>
+                    <h4>Performance Upgrades</h4>
+                    <p>RAM upgrades, HDD to SSD replacements, thermal cleaning to restore peak speed.</p>
+                    <a href="services.html" class="service-link">Get a quote →</a>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-ico">🔄</div>
+                <div>
+                    <h4>Trade-In Program</h4>
+                    <p>Get a fair value for your old laptop and put it towards a brand new one.</p>
+                    <a href="services.html" class="service-link">Get valuation →</a>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-ico">🛡️</div>
+                <div>
+                    <h4>Extended Warranty</h4>
+                    <p>Add up to 2 extra years of coverage on any laptop purchased from PixelCart.</p>
+                    <a href="services.html" class="service-link">Learn more →</a>
+                </div>
+            </div>
+            <div class="service-item">
+                <div class="service-ico">🚚</div>
+                <div>
+                    <h4>Delivery & Setup</h4>
+                    <p>Free same-day delivery in Nairobi. We set up your laptop so it's ready to use.</p>
+                    <a href="contact.html" class="service-link">Contact us →</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MISSION -->
-    <section class="mission-section">
-        <div class="section-label">What drives us</div>
-        <h2 class="sec-title"
-            style="font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:var(--text-primary);margin-top:0.5rem;">
-            Our Values</h2>
-        <div class="mission-grid">
-            <div class="mission-card">
-                <div class="mission-icon">🤝</div>
-                <h3>Honest Pricing</h3>
-                <p>What you see is what you pay. No hidden fees, no surprise charges at checkout. M-Pesa transactions
-                    are transparent from the start.</p>
-            </div>
-            <div class="mission-card">
-                <div class="mission-icon">🇰🇪</div>
-                <h3>Built Local</h3>
-                <p>We're a Kenyan business, built for Kenyan needs. We understand that M-Pesa is the default payment
-                    method — so we made it the only one we need.</p>
-            </div>
-            <div class="mission-card">
-                <div class="mission-icon">⭐</div>
-                <h3>Quality Guaranteed</h3>
-                <p>Every laptop we stock is sourced from authorized distributors with valid warranties. No grey market,
-                    no refurbished-passed-as-new.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- TEAM -->
+    <!-- ══ TEAM ══ -->
     <section class="team-section">
-        <div class="sec-header">
-            <div class="section-label">The people</div>
-            <h2 class="sec-title">Meet the Team</h2>
-            <p class="sec-sub">Small team, big passion for tech</p>
-        </div>
+        <div class="section-label">The people</div>
+        <h2 class="sec-title">Meet the Team</h2>
+        <p class="sec-sub">Small team, big passion for tech and customer service</p>
+
         <div class="team-grid">
             <div class="team-card">
                 <div class="team-avatar">👨🏾‍💻</div>
                 <div class="team-info">
                     <div class="team-name">Brian Mwangi</div>
                     <div class="team-role">Founder & CEO</div>
+                    <div class="team-bio">Computer science graduate who turned his laptop-buying frustration into
+                        Kenya's most trusted laptop store.</div>
                 </div>
             </div>
             <div class="team-card">
@@ -675,6 +1111,8 @@
                 <div class="team-info">
                     <div class="team-name">Aisha Kamau</div>
                     <div class="team-role">Head of Sales</div>
+                    <div class="team-bio">5 years in tech retail. Aisha knows every laptop in our catalogue and will
+                        find you the perfect match for your budget.</div>
                 </div>
             </div>
             <div class="team-card">
@@ -682,163 +1120,70 @@
                 <div class="team-info">
                     <div class="team-name">James Omondi</div>
                     <div class="team-role">Lead Technician</div>
+                    <div class="team-bio">Certified hardware engineer with 7 years of experience. James has repaired
+                        over 800 laptops and counting.</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="contact-section" id="contact">
-        <div class="section-label">Get in touch</div>
-        <h2 class="sec-title">Contact Us</h2>
-        <div class="contact-grid">
-            <!-- INFO -->
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">📞</div>
-                    <div>
-                        <strong>Phone / WhatsApp</strong>
-                        <a href="tel:+254700000000">+254 700 000 000</a>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div>
-                        <strong>Email</strong>
-                        <a href="mailto:hello@pixelcart.co.ke">hello@pixelcart.co.ke</a>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">📍</div>
-                    <div>
-                        <strong>Location</strong>
-                        <span>Westlands, off Waiyaki Way, Nairobi</span>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="contact-icon">🕐</div>
-                    <div>
-                        <strong>Business Hours</strong>
-                        <span>Mon–Sat: 8AM – 8PM<br>Sunday: 10AM – 5PM</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FORM -->
-            <div class="contact-form">
-                <h3>Send us a message</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Your Name</label>
-                        <input class="form-input" type="text" placeholder="John Doe" />
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Phone Number</label>
-                        <input class="form-input" type="tel" placeholder="0712 345 678" />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input class="form-input" type="email" placeholder="john@example.com" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Subject</label>
-                    <select class="form-select">
-                        <option>Product Enquiry</option>
-                        <option>Repair Service</option>
-                        <option>Trade-In</option>
-                        <option>Order Issue</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Message</label>
-                    <textarea class="form-textarea" placeholder="Tell us how we can help..."></textarea>
-                </div>
-                <!-- TODO: wire to PHP mailer -->
-                <button class="btn-submit">Send Message →</button>
-            </div>
+    <!-- ══ CTA ══ -->
+    <div class="cta-band">
+        <div>
+            <h2>Ready to shop with us?</h2>
+            <p>Browse our full collection or get in touch — we're happy to help you find the right laptop.</p>
         </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq-section">
-        <div class="section-label">Common questions</div>
-        <h2 class="sec-title">FAQ</h2>
-        <div class="faq-list">
-            <div class="faq-item">
-                <div class="faq-q" onclick="toggleFaq(this)">
-                    How does M-Pesa payment work on PixelCart?
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-a">
-                    At checkout, you enter your Safaricom number. We send an STK Push prompt to your phone — just enter
-                    your M-Pesa PIN and the payment is confirmed instantly. Your order is placed as soon as we receive
-                    confirmation from Safaricom's Daraja API.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="toggleFaq(this)">
-                    Do all laptops come with a warranty?
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-a">
-                    Yes. All laptops sold on PixelCart come with a minimum 1-year manufacturer warranty. We only stock
-                    from authorized distributors so your warranty is always valid.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="toggleFaq(this)">
-                    How long does delivery take?
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-a">
-                    Within Nairobi CBD and Westlands — same day delivery. Other Nairobi areas — next business day.
-                    Outside Nairobi — 2–3 business days via courier.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="toggleFaq(this)">
-                    Can I return a laptop if it has issues?
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-a">
-                    Yes — we have a 7-day return policy for hardware defects. If your laptop has an issue that isn't
-                    user-caused, contact us and we'll arrange a pickup and replacement or refund.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-q" onclick="toggleFaq(this)">
-                    Do you offer bulk / corporate pricing?
-                    <span class="faq-toggle">+</span>
-                </div>
-                <div class="faq-a">
-                    Absolutely. For orders of 5+ units, contact us directly via WhatsApp or email for special pricing
-                    and flexible payment arrangements.
-                </div>
-            </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;">
+            <a href="products.html" class="btn-primary">Browse Laptops →</a>
+            <a href="contact.html"
+                style="display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(62,207,142,.3);color:var(--green);font-family:var(--font-body);font-size:.9rem;font-weight:500;padding:.85rem 1.8rem;border-radius:8px;text-decoration:none;transition:background .2s;"
+                onmouseover="this.style.background='rgba(62,207,142,.07)'"
+                onmouseout="this.style.background='transparent'">Contact Us</a>
         </div>
-    </section>
+    </div>
 
-    <footer>
+    <!-- ══ FOOTER ══ -->
+    <footer
+        style="border-top:1px solid var(--border);padding:2rem var(--spacing-xl);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart"
+                style="width:26px;height:26px;object-fit:contain;border-radius:6px;">
+            PixelCart
         </a>
-        <p>© 2025 PixelCart · Nairobi, Kenya · <a href="products.html">Shop</a> · <a href="services.html">Services</a>
+        <p style="font-family:var(--font-body);font-size:.78rem;color:var(--text-muted);">
+            © 2025 PixelCart ·
+            <a href="products.html" style="color:var(--green);text-decoration:none;">Products</a> ·
+            <a href="services.html" style="color:var(--green);text-decoration:none;">Services</a> ·
+            <a href="contact.html" style="color:var(--green);text-decoration:none;">Contact</a>
         </p>
     </footer>
 
     <script src="js/main.js"></script>
     <script>
-        document.getElementById('cartCount').textContent = Cart.count();
+        Cart.updateBadge();
 
-        function toggleFaq(el) {
-            const item = el.parentElement;
-            const isOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-            if (!isOpen) item.classList.add('open');
-        }
+        // Navbar scroll
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').style.borderBottomColor =
+                window.scrollY > 20 ? 'rgba(62,207,142,0.15)' : 'var(--border)';
+        });
+
+        // Timeline scroll animation
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.timeline-item').forEach((item, i) => {
+                        setTimeout(() => item.classList.add('visible'), i * 150);
+                    });
+                    timelineObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        const timeline = document.querySelector('.timeline');
+        if (timeline) timelineObserver.observe(timeline);
     </script>
+
 </body>
 
 </html>

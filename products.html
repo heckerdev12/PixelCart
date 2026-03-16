@@ -5,36 +5,54 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Products — PixelCart</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
+
     <style>
+        /* ── PAGE HEADER ── */
         .page-header {
-            padding: 8rem var(--spacing-xl) 3rem;
-            border-bottom: 1px solid var(--border);
+            padding: 7.5rem var(--spacing-xl) 3rem;
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid var(--border);
         }
 
         .page-header::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             background-image:
-                linear-gradient(rgba(62, 207, 142, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(62, 207, 142, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(62, 207, 142, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(62, 207, 142, 0.04) 1px, transparent 1px);
+            background-size: 55px 55px;
             pointer-events: none;
         }
 
-        .page-header-inner {
+        .page-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background: radial-gradient(ellipse at right, rgba(62, 207, 142, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header-inner {
             position: relative;
             z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.1s;
         }
 
         .breadcrumb {
@@ -44,7 +62,7 @@
             font-family: var(--font-body);
             font-size: 0.78rem;
             color: var(--text-muted);
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
         }
 
         .breadcrumb a {
@@ -61,69 +79,192 @@
             color: var(--green);
         }
 
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--green);
+            font-weight: 500;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--green);
+        }
+
         .page-title {
             font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-size: clamp(2rem, 3.5vw, 3rem);
             font-weight: 800;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            line-height: 1.1;
         }
 
         .page-sub {
             font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
+            margin-top: 0.5rem;
         }
 
-        /* LAYOUT */
+        .header-search {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            min-width: 260px;
+        }
+
+        .header-search:focus-within {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.1);
+        }
+
+        .header-search svg {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .header-search input {
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            width: 100%;
+        }
+
+        .header-search input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        /* ── LAYOUT ── */
         .products-layout {
             display: grid;
-            grid-template-columns: 260px 1fr;
+            grid-template-columns: 248px 1fr;
             gap: 2.5rem;
-            padding: 3rem var(--spacing-xl);
+            padding: 3rem var(--spacing-xl) 5rem;
             align-items: start;
         }
 
-        /* SIDEBAR */
+        /* ── SIDEBAR — KEY FIX: scrollable independently ── */
         .sidebar {
             position: sticky;
-            top: 5rem;
+            top: 5.5rem;
+            max-height: calc(100vh - 6.5rem);
+            overflow-y: auto;
+            overflow-x: hidden;
+            /* hide scrollbar visually but keep it functional */
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+            padding-right: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 99px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: var(--green);
+        }
+
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            padding: 0.5rem 0;
+            z-index: 2;
+        }
+
+        .sidebar-header h3 {
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .clear-btn {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: color 0.2s;
+            padding: 0;
+        }
+
+        .clear-btn:hover {
+            color: var(--green);
         }
 
         .filter-block {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 1.2rem;
+            border-radius: 12px;
+            padding: 1.2rem 1.4rem;
+            margin-bottom: 1rem;
         }
 
-        .filter-block h3 {
+        .filter-block-title {
             font-family: var(--font-display);
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 700;
             color: var(--text-primary);
-            letter-spacing: 0.1em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
-            margin-bottom: 1.2rem;
-            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.7rem;
             border-bottom: 1px solid var(--border);
         }
 
         .filter-option {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 0;
+            justify-content: space-between;
+            padding: 0.4rem 0;
             cursor: pointer;
-            transition: color 0.2s;
         }
 
-        .filter-option:hover {
+        .filter-option:hover .filter-label {
             color: var(--green);
         }
 
-        .filter-option input[type="checkbox"] {
+        .filter-left {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .filter-check {
             appearance: none;
             width: 16px;
             height: 16px;
@@ -136,131 +277,169 @@
             transition: border-color 0.2s, background 0.2s;
         }
 
-        .filter-option input[type="checkbox"]:checked {
+        .filter-check:checked {
             background: var(--green);
             border-color: var(--green);
         }
 
-        .filter-option input[type="checkbox"]:checked::after {
+        .filter-check:checked::after {
             content: '✓';
             position: absolute;
             inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             color: #0a0a0a;
-            font-weight: 700;
+            font-weight: 800;
         }
 
-        .filter-option label {
+        .filter-label {
             font-family: var(--font-body);
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             color: var(--text-muted);
             cursor: pointer;
+            transition: color 0.2s;
         }
 
         .filter-count {
-            margin-left: auto;
             font-family: var(--font-body);
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             background: var(--surface-raised);
             padding: 0.1rem 0.5rem;
             border-radius: 99px;
         }
 
-        /* Price range */
-        .price-range-display {
+        .price-display {
             display: flex;
             justify-content: space-between;
             font-family: var(--font-body);
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             color: var(--green);
-            margin-bottom: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.6rem;
         }
 
-        input[type="range"] {
+        .price-slider {
             width: 100%;
             accent-color: var(--green);
             cursor: pointer;
+            margin-bottom: 0.5rem;
         }
 
-        /* MAIN CONTENT */
-        .products-main {}
+        .price-note {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
 
-        .products-toolbar {
+        .price-note span {
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .sort-chips {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .sort-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 7px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: background 0.2s, color 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .sort-chip:hover {
+            background: var(--surface-raised);
+            color: var(--text-primary);
+        }
+
+        .sort-chip.active {
+            background: rgba(62, 207, 142, 0.1);
+            border-color: rgba(62, 207, 142, 0.2);
+            color: var(--green);
+        }
+
+        .sort-chip .chip-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            border: 1.5px solid currentColor;
+            flex-shrink: 0;
+        }
+
+        .sort-chip.active .chip-dot {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        /* ── MAIN ── */
+        .toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            gap: 1rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .results-count {
+        .results-info {
             font-family: var(--font-body);
             font-size: 0.85rem;
             color: var(--text-muted);
         }
 
-        .results-count strong {
+        .results-info strong {
             color: var(--text-primary);
         }
 
-        .toolbar-right {
+        .filter-tags {
             display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-tag {
+            display: inline-flex;
             align-items: center;
-            gap: 1rem;
-        }
-
-        .sort-select {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-muted);
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-            padding: 0.55rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .sort-select:focus {
-            border-color: var(--green);
-        }
-
-        .view-toggle {
-            display: flex;
-            gap: 0.3rem;
-        }
-
-        .view-btn {
-            width: 34px;
-            height: 34px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
-        }
-
-        .view-btn.active,
-        .view-btn:hover {
-            border-color: var(--green);
+            gap: 0.4rem;
+            background: rgba(62, 207, 142, 0.1);
+            border: 1px solid rgba(62, 207, 142, 0.2);
             color: var(--green);
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: background 0.2s;
         }
 
-        /* PRODUCT GRID */
-        .grid-view {
+        .filter-tag:hover {
+            background: rgba(62, 207, 142, 0.18);
+        }
+
+        .filter-tag .remove {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* ── PRODUCT GRID ── */
+        .products-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 1.4rem;
         }
 
         .product-card {
@@ -268,65 +447,149 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
             opacity: 0;
-            animation: fadeUp 0.5s ease forwards;
+            transform: translateY(16px);
+            animation: cardIn 0.45s ease forwards;
+        }
+
+        @keyframes cardIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .product-card:nth-child(1) {
-            animation-delay: 0.05s;
+            animation-delay: .04s;
         }
 
         .product-card:nth-child(2) {
-            animation-delay: 0.1s;
+            animation-delay: .08s;
         }
 
         .product-card:nth-child(3) {
-            animation-delay: 0.15s;
+            animation-delay: .12s;
         }
 
         .product-card:nth-child(4) {
-            animation-delay: 0.2s;
+            animation-delay: .16s;
         }
 
         .product-card:nth-child(5) {
-            animation-delay: 0.25s;
+            animation-delay: .20s;
         }
 
         .product-card:nth-child(6) {
-            animation-delay: 0.3s;
+            animation-delay: .24s;
+        }
+
+        .product-card:nth-child(7) {
+            animation-delay: .28s;
+        }
+
+        .product-card:nth-child(8) {
+            animation-delay: .32s;
+        }
+
+        .product-card:nth-child(9) {
+            animation-delay: .36s;
+        }
+
+        .product-card:nth-child(10) {
+            animation-delay: .40s;
+        }
+
+        .product-card:nth-child(11) {
+            animation-delay: .44s;
+        }
+
+        .product-card:nth-child(12) {
+            animation-delay: .48s;
         }
 
         .product-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-5px);
             border-color: rgba(62, 207, 142, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.35);
         }
 
+        .product-card.hidden {
+            display: none;
+        }
+
+        /* ── PLACEHOLDER IMAGE ── */
         .card-image {
             aspect-ratio: 16/10;
-            background: var(--surface-raised);
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: var(--surface-raised);
         }
 
+        /* Styled placeholder — shows brand + name + icon */
+        .card-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* subtle gradient background per brand */
+        .card-placeholder::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 30% 40%, rgba(62, 207, 142, 0.06) 0%, transparent 65%);
+        }
+
+        .placeholder-icon {
+            font-size: 2.2rem;
+            opacity: 0.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .placeholder-brand {
+            font-family: var(--font-body);
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(62, 207, 142, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .placeholder-name {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Real img if added later */
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.4s ease;
+            position: absolute;
+            inset: 0;
         }
 
         .product-card:hover .card-image img {
             transform: scale(1.04);
-        }
-
-        .card-img-placeholder {
-            font-size: 2.5rem;
-            color: rgba(255, 255, 255, 0.06);
         }
 
         .card-badge {
@@ -337,48 +600,41 @@
             border: 1px solid rgba(62, 207, 142, 0.3);
             color: var(--green);
             font-family: var(--font-body);
-            font-size: 0.65rem;
-            font-weight: 600;
+            font-size: 0.62rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             padding: 0.22rem 0.6rem;
             border-radius: 6px;
+            z-index: 2;
         }
 
-        .wishlist-btn {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            width: 30px;
-            height: 30px;
-            background: rgba(15, 15, 15, 0.7);
-            border: 1px solid var(--border);
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            transition: border-color 0.2s, color 0.2s;
+        .card-badge.gaming {
+            background: rgba(255, 120, 80, 0.15);
+            border-color: rgba(255, 120, 80, 0.3);
+            color: #ff7850;
         }
 
-        .wishlist-btn:hover {
-            border-color: var(--green);
-            color: var(--green);
+        .card-badge.new-tag {
+            background: rgba(80, 160, 255, 0.15);
+            border-color: rgba(80, 160, 255, 0.3);
+            color: #50a0ff;
         }
 
         .card-body {
-            padding: 1.2rem;
+            padding: 1.3rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .card-brand {
             font-family: var(--font-body);
-            font-size: 0.7rem;
-            letter-spacing: 0.12em;
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.3rem;
         }
 
         .card-name {
@@ -390,11 +646,20 @@
             line-height: 1.3;
         }
 
+        .card-desc {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
         .card-specs {
             display: flex;
-            gap: 0.4rem;
+            gap: 0.35rem;
             flex-wrap: wrap;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
         }
 
         .spec-tag {
@@ -402,8 +667,8 @@
             border: 1px solid var(--border);
             color: var(--text-muted);
             font-family: var(--font-body);
-            font-size: 0.65rem;
-            padding: 0.2rem 0.55rem;
+            font-size: 0.62rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
         }
 
@@ -411,6 +676,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
         }
 
         .card-price {
@@ -421,7 +689,7 @@
         }
 
         .card-price small {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             font-family: var(--font-body);
             font-weight: 400;
@@ -430,7 +698,7 @@
         .btn-card {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.35rem;
             background: rgba(62, 207, 142, 0.1);
             border: 1px solid rgba(62, 207, 142, 0.2);
             color: var(--green);
@@ -450,7 +718,55 @@
             transform: translateY(-1px);
         }
 
-        /* PAGINATION */
+        /* ── NO RESULTS ── */
+        .no-results {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 1rem;
+            grid-column: 1/-1;
+        }
+
+        .no-results.visible {
+            display: flex;
+        }
+
+        .no-results .nr-icon {
+            font-size: 3rem;
+            opacity: 0.3;
+            margin-bottom: 1rem;
+        }
+
+        .no-results h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .no-results p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .no-results button {
+            margin-top: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(62, 207, 142, 0.1);
+            border: 1px solid rgba(62, 207, 142, 0.25);
+            color: var(--green);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            padding: 0.65rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* ── PAGINATION ── */
         .pagination {
             display: flex;
             justify-content: center;
@@ -471,7 +787,7 @@
             font-size: 0.85rem;
             color: var(--text-muted);
             cursor: pointer;
-            transition: border-color 0.2s, color 0.2s;
+            transition: border-color 0.2s, color 0.2s, background 0.2s;
             text-decoration: none;
         }
 
@@ -492,30 +808,48 @@
             }
         }
 
-        @media (max-width: 1024px) {
+        /* ── RESPONSIVE ── */
+        @media(max-width:1100px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:900px) {
             .products-layout {
                 grid-template-columns: 1fr;
             }
 
             .sidebar {
                 position: static;
+                max-height: none;
+                overflow: visible;
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1rem;
             }
 
-            .grid-view {
-                grid-template-columns: repeat(2, 1fr);
+            .sidebar-header {
+                grid-column: 1/-1;
             }
         }
 
-        @media (max-width: 640px) {
-            .grid-view {
+        @media(max-width:640px) {
+            .products-grid {
                 grid-template-columns: 1fr;
             }
 
             .sidebar {
                 grid-template-columns: 1fr;
+            }
+
+            .header-inner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-search {
+                width: 100%;
             }
         }
     </style>
@@ -523,9 +857,12 @@
 
 <body>
 
+    <!-- ══ NAVBAR ══ -->
     <nav class="navbar">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart Logo"
+                style="width:30px;height:30px;object-fit:contain;border-radius:7px;">
+            PixelCart
         </a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -533,9 +870,10 @@
             <li><a href="services.html">Services</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="cart.html" class="nav-cart">
+            <a href="cart.html" class="nav-cart" title="View Cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
@@ -546,219 +884,469 @@
         </div>
     </nav>
 
-    <!-- PAGE HEADER -->
+    <!-- ══ PAGE HEADER ══ -->
     <div class="page-header">
-        <div class="page-header-inner">
-            <div class="breadcrumb">
-                <a href="index.html">Home</a> / <span>Products</span>
+        <div class="header-inner">
+            <div>
+                <div class="breadcrumb"><a href="index.html">Home</a> / <span>Products</span></div>
+                <div class="section-label">Our catalogue</div>
+                <h1 class="page-title">All Laptops</h1>
+                <p class="page-sub">12 models · genuine warranties · M-Pesa checkout</p>
             </div>
-            <h1 class="page-title">All Laptops</h1>
-            <p class="page-sub">Browse our full collection — curated for every budget and use case</p>
+            <div class="header-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="M21 21l-4.35-4.35" />
+                </svg>
+                <input type="text" id="searchInput" placeholder="Search laptops..." />
+            </div>
         </div>
     </div>
 
-    <!-- PRODUCTS LAYOUT -->
+    <!-- ══ LAYOUT ══ -->
     <div class="products-layout">
 
-        <!-- SIDEBAR -->
+        <!-- ── SIDEBAR ── -->
         <aside class="sidebar">
-            <div class="filter-block">
-                <h3>Brand</h3>
-                <label class="filter-option"><input type="checkbox"> <label>Apple</label><span
-                        class="filter-count">12</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Dell</label><span
-                        class="filter-count">18</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Lenovo</label><span
-                        class="filter-count">15</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>HP</label><span
-                        class="filter-count">14</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Asus</label><span
-                        class="filter-count">10</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Microsoft</label><span
-                        class="filter-count">6</span></label>
+            <div class="sidebar-header">
+                <h3>Filters</h3>
+                <button class="clear-btn" onclick="clearAllFilters()">Clear all</button>
             </div>
 
+            <!-- Brand -->
             <div class="filter-block">
-                <h3>Category</h3>
-                <label class="filter-option"><input type="checkbox"> <label>Business</label><span
-                        class="filter-count">22</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Gaming</label><span
-                        class="filter-count">16</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Student</label><span
-                        class="filter-count">20</span></label>
-                <label class="filter-option"><input type="checkbox"> <label>Creative</label><span
-                        class="filter-count">12</span></label>
-            </div>
-
-            <div class="filter-block">
-                <h3>Price (KES)</h3>
-                <div class="price-range-display">
-                    <span>KES 50,000</span><span>KES 300,000</span>
+                <div class="filter-block-title">Brand</div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Apple" id="f-apple" onchange="applyFilters()"><label class="filter-label"
+                            for="f-apple">Apple</label></div><span class="filter-count">2</span>
                 </div>
-                <input type="range" min="50000" max="300000" value="300000" id="priceRange">
-                <div
-                    style="text-align:center;font-family:var(--font-body);font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">
-                    Up to <span id="priceVal" style="color:var(--green);">KES 300,000</span>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Dell" id="f-dell" onchange="applyFilters()"><label class="filter-label"
+                            for="f-dell">Dell</label></div><span class="filter-count">2</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Lenovo" id="f-lenovo" onchange="applyFilters()"><label class="filter-label"
+                            for="f-lenovo">Lenovo</label></div><span class="filter-count">2</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand" value="HP"
+                            id="f-hp" onchange="applyFilters()"><label class="filter-label" for="f-hp">HP</label></div>
+                    <span class="filter-count">2</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Asus" id="f-asus" onchange="applyFilters()"><label class="filter-label"
+                            for="f-asus">Asus</label></div><span class="filter-count">2</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Microsoft" id="f-ms" onchange="applyFilters()"><label class="filter-label"
+                            for="f-ms">Microsoft</label></div><span class="filter-count">1</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="brand"
+                            value="Acer" id="f-acer" onchange="applyFilters()"><label class="filter-label"
+                            for="f-acer">Acer</label></div><span class="filter-count">1</span>
                 </div>
             </div>
 
+            <!-- Category -->
             <div class="filter-block">
-                <h3>RAM</h3>
-                <label class="filter-option"><input type="checkbox"> <label>8GB</label></label>
-                <label class="filter-option"><input type="checkbox"> <label>16GB</label></label>
-                <label class="filter-option"><input type="checkbox"> <label>32GB</label></label>
-                <label class="filter-option"><input type="checkbox"> <label>64GB+</label></label>
+                <div class="filter-block-title">Category</div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="category"
+                            value="business" id="f-business" onchange="applyFilters()"><label class="filter-label"
+                            for="f-business">Business</label></div><span class="filter-count">4</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="category"
+                            value="gaming" id="f-gaming" onchange="applyFilters()"><label class="filter-label"
+                            for="f-gaming">Gaming</label></div><span class="filter-count">2</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="category"
+                            value="student" id="f-student" onchange="applyFilters()"><label class="filter-label"
+                            for="f-student">Student</label></div><span class="filter-count">3</span>
+                </div>
+                <div class="filter-option">
+                    <div class="filter-left"><input type="checkbox" class="filter-check" data-filter="category"
+                            value="creative" id="f-creative" onchange="applyFilters()"><label class="filter-label"
+                            for="f-creative">Creative</label></div><span class="filter-count">3</span>
+                </div>
             </div>
-        </aside>
 
-        <!-- MAIN -->
-        <div class="products-main">
-            <div class="products-toolbar">
-                <p class="results-count">Showing <strong>12</strong> of 75 laptops</p>
-                <div class="toolbar-right">
-                    <select class="sort-select">
-                        <option>Sort: Featured</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                        <option>Newest First</option>
-                    </select>
-                    <div class="view-toggle">
-                        <div class="view-btn active">⊞</div>
-                        <div class="view-btn">☰</div>
+            <!-- Price Range -->
+            <div class="filter-block">
+                <div class="filter-block-title">Price Range (KES)</div>
+                <div class="price-display">
+                    <span>KES 50,000</span>
+                    <span id="priceMaxLabel">KES 250,000</span>
+                </div>
+                <input type="range" class="price-slider" id="priceSlider" min="50000" max="250000" value="250000"
+                    step="5000" oninput="updatePrice(this.value); applyFilters()">
+                <div class="price-note">Up to <span id="priceVal">KES 250,000</span></div>
+            </div>
+
+            <!-- Sort -->
+            <div class="filter-block">
+                <div class="filter-block-title">Sort By</div>
+                <div class="sort-chips">
+                    <div class="sort-chip active" data-sort="featured" onclick="setSort(this,'featured')">
+                        <div class="chip-dot"></div>Featured
+                    </div>
+                    <div class="sort-chip" data-sort="price-asc" onclick="setSort(this,'price-asc')">
+                        <div class="chip-dot"></div>Price: Low to High
+                    </div>
+                    <div class="sort-chip" data-sort="price-desc" onclick="setSort(this,'price-desc')">
+                        <div class="chip-dot"></div>Price: High to Low
+                    </div>
+                    <div class="sort-chip" data-sort="name-asc" onclick="setSort(this,'name-asc')">
+                        <div class="chip-dot"></div>Name: A → Z
                     </div>
                 </div>
             </div>
+        </aside>
 
-            <div class="grid-view" id="productGrid">
-                <!-- Cards — will be replaced by PHP loop later -->
+        <!-- ── MAIN ── -->
+        <div class="products-main">
+            <div class="toolbar">
+                <p class="results-info">Showing <strong id="visibleCount">12</strong> of 12 laptops</p>
+            </div>
+            <div class="filter-tags" id="filterTags"></div>
 
-                <div class="product-card">
+            <div class="products-grid" id="productsGrid">
+
+                <!-- 1. MacBook Pro 14 M3 -->
+                <div class="product-card" data-brand="Apple" data-category="creative business" data-price="185000"
+                    data-name="MacBook Pro 14 M3">
                     <div class="card-image">
-                        <!-- <img src="images/macbook-pro.jpg" alt="MacBook Pro"> -->
-                        <div class="card-img-placeholder">💻</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Apple</div>
+                            <div class="placeholder-name">MacBook Pro 14" M3</div>
+                        </div>
                         <span class="card-badge">Best Seller</span>
-                        <div class="wishlist-btn">♡</div>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Apple</div>
                         <div class="card-name">MacBook Pro 14" M3</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">M3</span><span class="spec-tag">16GB</span><span
-                                class="spec-tag">512GB</span>
-                        </div>
+                        <div class="card-desc">Apple's M3 chip delivers extraordinary performance for developers, video
+                            editors, and creative professionals who demand the best.</div>
+                        <div class="card-specs"><span class="spec-tag">Apple M3</span><span class="spec-tag">16GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">14.2"
+                                Retina</span></div>
                         <div class="card-footer">
                             <div class="card-price">KES 185,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <a href="product-detail.html?id=macbook-pro-14" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- 2. MacBook Air 15 M2 -->
+                <div class="product-card" data-brand="Apple" data-category="student creative" data-price="145000"
+                    data-name="MacBook Air 15 M2">
                     <div class="card-image">
-                        <div class="card-img-placeholder">💻</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Apple</div>
+                            <div class="placeholder-name">MacBook Air 15" M2</div>
+                        </div>
                         <span class="card-badge">Popular</span>
-                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Apple</div>
+                        <div class="card-name">MacBook Air 15" M2</div>
+                        <div class="card-desc">The world's best consumer laptop — incredibly thin, silent fanless
+                            design, and all-day battery life in a stunning 15-inch display.</div>
+                        <div class="card-specs"><span class="spec-tag">Apple M2</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">256GB SSD</span><span class="spec-tag">15.3" Liquid
+                                Retina</span></div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 145,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=macbook-air-15" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Dell XPS 15 OLED -->
+                <div class="product-card" data-brand="Dell" data-category="creative business" data-price="220000"
+                    data-name="Dell XPS 15 OLED">
+                    <div class="card-image">
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Dell</div>
+                            <div class="placeholder-name">XPS 15 OLED</div>
+                        </div>
+                        <span class="card-badge">Pro Pick</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Dell</div>
-                        <div class="card-name">XPS 15 OLED Touch</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">i9-13900H</span><span class="spec-tag">32GB</span><span
-                                class="spec-tag">1TB</span>
+                        <div class="card-name">Dell XPS 15 OLED</div>
+                        <div class="card-desc">A stunning 3.5K OLED touchscreen with InfinityEdge display, paired with
+                            Intel's latest i9 processor for peak creative workloads.</div>
+                        <div class="card-specs"><span class="spec-tag">i9-13900H</span><span class="spec-tag">32GB
+                                RAM</span><span class="spec-tag">1TB SSD</span><span class="spec-tag">RTX 4060</span>
                         </div>
                         <div class="card-footer">
                             <div class="card-price">KES 220,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <a href="product-detail.html?id=dell-xps-15" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- 4. Dell Inspiron 15 -->
+                <div class="product-card" data-brand="Dell" data-category="student business" data-price="72000"
+                    data-name="Dell Inspiron 15">
                     <div class="card-image">
-                        <div class="card-img-placeholder">💻</div>
-                        <span class="card-badge">Value Pick</span>
-                        <div class="wishlist-btn">♡</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Dell</div>
+                            <div class="placeholder-name">Inspiron 15</div>
+                        </div>
+                        <span class="card-badge new-tag">Budget Pick</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Dell</div>
+                        <div class="card-name">Dell Inspiron 15</div>
+                        <div class="card-desc">Reliable everyday performance for students and home users. Solid build
+                            quality, long battery life, and upgradeable storage.</div>
+                        <div class="card-specs"><span class="spec-tag">i5-1235U</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">15.6" FHD</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 72,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=dell-inspiron-15" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Lenovo ThinkPad X1 Carbon -->
+                <div class="product-card" data-brand="Lenovo" data-category="business" data-price="140000"
+                    data-name="Lenovo ThinkPad X1 Carbon">
+                    <div class="card-image">
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Lenovo</div>
+                            <div class="placeholder-name">ThinkPad X1 Carbon</div>
+                        </div>
+                        <span class="card-badge">Business</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Lenovo</div>
                         <div class="card-name">ThinkPad X1 Carbon</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">i7-1365U</span><span class="spec-tag">16GB</span><span
-                                class="spec-tag">512GB</span>
+                        <div class="card-desc">Military-grade durability, legendary ThinkPad keyboard, and ultra-light
+                            carbon fibre chassis — the gold standard for business laptops.</div>
+                        <div class="card-specs"><span class="spec-tag">i7-1365U</span><span class="spec-tag">16GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">14" IPS</span>
                         </div>
                         <div class="card-footer">
                             <div class="card-price">KES 140,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <a href="product-detail.html?id=lenovo-thinkpad-x1" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- 6. Lenovo IdeaPad 5 -->
+                <div class="product-card" data-brand="Lenovo" data-category="student" data-price="65000"
+                    data-name="Lenovo IdeaPad 5">
                     <div class="card-image">
-                        <div class="card-img-placeholder">💻</div>
-                        <span class="card-badge">Gaming</span>
-                        <div class="wishlist-btn">♡</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Lenovo</div>
+                            <div class="placeholder-name">IdeaPad 5 Gen 8</div>
+                        </div>
+                        <span class="card-badge new-tag">New</span>
                     </div>
                     <div class="card-body">
-                        <div class="card-brand">Asus</div>
-                        <div class="card-name">ROG Zephyrus G14</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">Ryzen 9</span><span class="spec-tag">16GB</span><span
-                                class="spec-tag">RTX 4060</span>
+                        <div class="card-brand">Lenovo</div>
+                        <div class="card-name">IdeaPad 5 Gen 8</div>
+                        <div class="card-desc">Excellent value for campus life — great display, comfortable keyboard,
+                            and AMD Ryzen power in a slim, lightweight package.</div>
+                        <div class="card-specs"><span class="spec-tag">Ryzen 5 7530U</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">15.6" FHD</span>
                         </div>
                         <div class="card-footer">
-                            <div class="card-price">KES 175,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <div class="card-price">KES 65,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=lenovo-ideapad-5" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- 7. HP Spectre x360 -->
+                <div class="product-card" data-brand="HP" data-category="creative business" data-price="155000"
+                    data-name="HP Spectre x360">
                     <div class="card-image">
-                        <div class="card-img-placeholder">💻</div>
-                        <div class="wishlist-btn">♡</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">HP</div>
+                            <div class="placeholder-name">Spectre x360 14"</div>
+                        </div>
+                        <span class="card-badge">2-in-1</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">HP</div>
                         <div class="card-name">Spectre x360 14"</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">i7-1355U</span><span class="spec-tag">16GB</span><span
-                                class="spec-tag">512GB</span>
-                        </div>
+                        <div class="card-desc">Premium 2-in-1 convertible with OLED touchscreen, pen support, and
+                            gem-cut design. Use it as a laptop, tablet, or presentation stand.</div>
+                        <div class="card-specs"><span class="spec-tag">i7-1355U</span><span class="spec-tag">16GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">OLED
+                                Touch</span></div>
                         <div class="card-footer">
                             <div class="card-price">KES 155,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <a href="product-detail.html?id=hp-spectre-x360" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="product-card">
+                <!-- 8. HP EliteBook 840 -->
+                <div class="product-card" data-brand="HP" data-category="business" data-price="118000"
+                    data-name="HP EliteBook 840">
                     <div class="card-image">
-                        <div class="card-img-placeholder">💻</div>
-                        <span class="card-badge">New</span>
-                        <div class="wishlist-btn">♡</div>
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">HP</div>
+                            <div class="placeholder-name">EliteBook 840 G10</div>
+                        </div>
+                        <span class="card-badge">Enterprise</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">HP</div>
+                        <div class="card-name">EliteBook 840 G10</div>
+                        <div class="card-desc">Enterprise-grade security, HP Sure View privacy screen, and impressive
+                            battery life — the top choice for corporate professionals.</div>
+                        <div class="card-specs"><span class="spec-tag">i5-1335U</span><span class="spec-tag">16GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">14" FHD</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 118,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=hp-elitebook-840" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Asus ROG Zephyrus G14 -->
+                <div class="product-card" data-brand="Asus" data-category="gaming" data-price="175000"
+                    data-name="Asus ROG Zephyrus G14">
+                    <div class="card-image">
+                        <div class="card-placeholder"
+                            style="background:radial-gradient(ellipse at 30% 40%, rgba(255,100,60,0.08) 0%, transparent 65%);">
+                            <div class="placeholder-icon">🎮</div>
+                            <div class="placeholder-brand" style="color:rgba(255,120,80,0.5);">Asus ROG</div>
+                            <div class="placeholder-name">Zephyrus G14 2024</div>
+                        </div>
+                        <span class="card-badge gaming">Gaming</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Asus ROG</div>
+                        <div class="card-name">Zephyrus G14 2024</div>
+                        <div class="card-desc">Compact gaming powerhouse with RTX 4060 graphics, 165Hz QHD display, and
+                            Ryzen 9 processor — all in a strikingly slim chassis.</div>
+                        <div class="card-specs"><span class="spec-tag">Ryzen 9 8945HS</span><span class="spec-tag">16GB
+                                RAM</span><span class="spec-tag">RTX 4060</span><span class="spec-tag">165Hz QHD</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 175,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=asus-rog-g14" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Asus VivoBook 15 -->
+                <div class="product-card" data-brand="Asus" data-category="student gaming" data-price="58000"
+                    data-name="Asus VivoBook 15">
+                    <div class="card-image">
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Asus</div>
+                            <div class="placeholder-name">VivoBook 15 X1502</div>
+                        </div>
+                        <span class="card-badge new-tag">Value</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Asus</div>
+                        <div class="card-name">VivoBook 15 X1502</div>
+                        <div class="card-desc">Great everyday laptop with vibrant OLED display and Intel 12th Gen
+                            processor. Perfect for students who want quality without the premium price.</div>
+                        <div class="card-specs"><span class="spec-tag">i5-12500H</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">15.6"
+                                OLED</span></div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 58,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=asus-vivobook-15" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Microsoft Surface Laptop 5 -->
+                <div class="product-card" data-brand="Microsoft" data-category="business student" data-price="95000"
+                    data-name="Microsoft Surface Laptop 5">
+                    <div class="card-image">
+                        <div class="card-placeholder"
+                            style="background:radial-gradient(ellipse at 30% 40%, rgba(80,160,255,0.07) 0%, transparent 65%);">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand" style="color:rgba(80,160,255,0.5);">Microsoft</div>
+                            <div class="placeholder-name">Surface Laptop 5</div>
+                        </div>
+                        <span class="card-badge">Slim</span>
                     </div>
                     <div class="card-body">
                         <div class="card-brand">Microsoft</div>
                         <div class="card-name">Surface Laptop 5</div>
-                        <div class="card-specs">
-                            <span class="spec-tag">i5-1235U</span><span class="spec-tag">8GB</span><span
-                                class="spec-tag">256GB</span>
-                        </div>
+                        <div class="card-desc">Elegantly slim and beautifully crafted with a high-resolution
+                            touchscreen, exceptional keyboard, and tight Windows 11 integration.</div>
+                        <div class="card-specs"><span class="spec-tag">i5-1235U</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">256GB SSD</span><span class="spec-tag">13.5"
+                                Touch</span></div>
                         <div class="card-footer">
                             <div class="card-price">KES 95,000 <small>/ unit</small></div>
-                            <a href="product-detail.html" class="btn-card">View →</a>
+                            <a href="product-detail.html?id=microsoft-surface-5" class="btn-card">View →</a>
                         </div>
                     </div>
                 </div>
+
+                <!-- 12. Acer Swift 3 -->
+                <div class="product-card" data-brand="Acer" data-category="student" data-price="55000"
+                    data-name="Acer Swift 3">
+                    <div class="card-image">
+                        <div class="card-placeholder">
+                            <div class="placeholder-icon">💻</div>
+                            <div class="placeholder-brand">Acer</div>
+                            <div class="placeholder-name">Swift 3 SF314</div>
+                        </div>
+                        <span class="card-badge new-tag">Budget</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Acer</div>
+                        <div class="card-name">Swift 3 SF314</div>
+                        <div class="card-desc">Lightweight, affordable, and reliable — the Acer Swift 3 is built for
+                            students who need a fast, portable laptop without breaking the bank.</div>
+                        <div class="card-specs"><span class="spec-tag">Ryzen 5 7530U</span><span class="spec-tag">8GB
+                                RAM</span><span class="spec-tag">512GB SSD</span><span class="spec-tag">14" FHD
+                                IPS</span></div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 55,000 <small>/ unit</small></div>
+                            <a href="product-detail.html?id=acer-swift-3" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- No results -->
+                <div class="no-results" id="noResults">
+                    <div class="nr-icon">🔍</div>
+                    <h3>No laptops found</h3>
+                    <p>Try adjusting your filters or search term</p>
+                    <button onclick="clearAllFilters()">✕ Clear all filters</button>
+                </div>
+
             </div>
 
-            <!-- PAGINATION -->
             <div class="pagination">
                 <a href="#" class="page-btn">←</a>
                 <a href="#" class="page-btn active">1</a>
                 <a href="#" class="page-btn">2</a>
-                <a href="#" class="page-btn">3</a>
                 <a href="#" class="page-btn">→</a>
             </div>
         </div>
@@ -766,17 +1354,106 @@
 
     <script src="js/main.js"></script>
     <script>
-        // Price range slider
-        const range = document.getElementById('priceRange');
-        const val = document.getElementById('priceVal');
-        if (range) {
-            range.addEventListener('input', () => {
-                val.textContent = 'KES ' + Number(range.value).toLocaleString();
-            });
+        Cart.updateBadge();
+
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').style.borderBottomColor =
+                window.scrollY > 20 ? 'rgba(62,207,142,0.15)' : 'var(--border)';
+        });
+
+        let currentSort = 'featured', currentPrice = 250000, currentSearch = '';
+
+        function updatePrice(val) {
+            currentPrice = parseInt(val);
+            const f = 'KES ' + Number(val).toLocaleString();
+            document.getElementById('priceVal').textContent = f;
+            document.getElementById('priceMaxLabel').textContent = f;
         }
-        // Cart badge
-        const cart = JSON.parse(localStorage.getItem('pixelcart_cart') || '[]');
-        document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
+
+        function setSort(el, val) {
+            document.querySelectorAll('.sort-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            currentSort = val;
+            applyFilters();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function () {
+            currentSearch = this.value.toLowerCase().trim();
+            applyFilters();
+        });
+
+        function applyFilters() {
+            const brands = getChecked('brand');
+            const categories = getChecked('category');
+            const cards = Array.from(document.querySelectorAll('.product-card[data-brand]'));
+
+            // Sort
+            if (currentSort === 'price-asc') cards.sort((a, b) => +a.dataset.price - +b.dataset.price);
+            if (currentSort === 'price-desc') cards.sort((a, b) => +b.dataset.price - +a.dataset.price);
+            if (currentSort === 'name-asc') cards.sort((a, b) => a.dataset.name.localeCompare(b.dataset.name));
+
+            const grid = document.getElementById('productsGrid');
+            cards.forEach(c => grid.appendChild(c));
+
+            let visible = 0;
+            cards.forEach((card, i) => {
+                const bMatch = brands.length === 0 || brands.includes(card.dataset.brand);
+                const cMatch = categories.length === 0 || categories.some(c => card.dataset.category.split(' ').includes(c));
+                const pMatch = +card.dataset.price <= currentPrice;
+                const sMatch = currentSearch === '' || card.dataset.name.toLowerCase().includes(currentSearch);
+
+                if (bMatch && cMatch && pMatch && sMatch) {
+                    card.classList.remove('hidden');
+                    card.style.animationDelay = (i * 0.04) + 's';
+                    card.style.animation = 'none';
+                    card.offsetHeight;
+                    card.style.animation = '';
+                    visible++;
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+
+            document.getElementById('visibleCount').textContent = visible;
+            document.getElementById('noResults').classList.toggle('visible', visible === 0);
+            renderTags(brands, categories);
+        }
+
+        function getChecked(type) {
+            return Array.from(document.querySelectorAll(`.filter-check[data-filter="${type}"]:checked`)).map(e => e.value);
+        }
+
+        function renderTags(brands, categories) {
+            const c = document.getElementById('filterTags');
+            c.innerHTML = '';
+            brands.forEach(b => { c.innerHTML += `<div class="filter-tag" onclick="removeFilter('brand','${b}')">${b} <span class="remove">✕</span></div>`; });
+            categories.forEach(cat => { c.innerHTML += `<div class="filter-tag" onclick="removeFilter('category','${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)} <span class="remove">✕</span></div>`; });
+            if (+document.getElementById('priceSlider').value < 250000) {
+                c.innerHTML += `<div class="filter-tag" onclick="removePrice()">Under KES ${Number(currentPrice).toLocaleString()} <span class="remove">✕</span></div>`;
+            }
+        }
+
+        function removeFilter(type, value) {
+            const cb = document.querySelector(`.filter-check[data-filter="${type}"][value="${value}"]`);
+            if (cb) { cb.checked = false; applyFilters(); }
+        }
+
+        function removePrice() {
+            document.getElementById('priceSlider').value = 250000;
+            updatePrice(250000); applyFilters();
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('.filter-check').forEach(c => c.checked = false);
+            document.getElementById('priceSlider').value = 250000;
+            document.getElementById('searchInput').value = '';
+            currentPrice = 250000; currentSearch = '';
+            updatePrice(250000);
+            document.querySelectorAll('.sort-chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('[data-sort="featured"]').classList.add('active');
+            currentSort = 'featured';
+            applyFilters();
+        }
     </script>
 </body>
 

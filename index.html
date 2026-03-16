@@ -5,28 +5,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PixelCart — Premium Laptops</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png" />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
+
+    <!-- Global CSS -->
     <link rel="stylesheet" href="css/style.css" />
 
     <style>
-        /* ── INDEX PAGE STYLES ── */
-
-        /* HERO */
+        /* ── HERO ── */
         .hero {
             min-height: 100vh;
             display: grid;
             grid-template-columns: 1fr 1fr;
             align-items: center;
             gap: 4rem;
-            padding: 8rem var(--spacing-xl) 4rem;
+            padding: 8rem var(--spacing-xl) 5rem;
             position: relative;
             overflow: hidden;
         }
 
-        /* animated grid background */
         .hero::before {
             content: '';
             position: absolute;
@@ -39,7 +43,6 @@
             pointer-events: none;
         }
 
-        /* radial glow behind hero text */
         .hero::after {
             content: '';
             position: absolute;
@@ -47,17 +50,17 @@
             left: -10%;
             width: 600px;
             height: 600px;
-            background: radial-gradient(ellipse at center, rgba(62, 207, 142, 0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(62, 207, 142, 0.08) 0%, transparent 70%);
             pointer-events: none;
         }
 
         @keyframes gridDrift {
-            0% {
-                transform: translateY(0);
+            from {
+                background-position: 0 0;
             }
 
-            100% {
-                transform: translateY(60px);
+            to {
+                background-position: 0 60px;
             }
         }
 
@@ -86,7 +89,7 @@
             margin-bottom: 2rem;
         }
 
-        .hero-badge span {
+        .hero-badge .dot {
             width: 6px;
             height: 6px;
             background: var(--green);
@@ -103,8 +106,8 @@
             }
 
             50% {
-                opacity: 0.4;
-                transform: scale(0.7);
+                opacity: .4;
+                transform: scale(.7);
             }
         }
 
@@ -123,7 +126,6 @@
             position: relative;
         }
 
-        /* underline accent on the green word */
         .hero-title .accent::after {
             content: '';
             position: absolute;
@@ -170,26 +172,24 @@
             padding: 0.85rem 2rem;
             border-radius: 8px;
             text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 0 0 0 rgba(62, 207, 142, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(62, 207, 142, 0.35);
+            box-shadow: 0 8px 30px rgba(62, 207, 142, .35);
         }
 
         .btn-ghost {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .5rem;
             color: var(--text-muted);
             font-family: var(--font-body);
-            font-size: 0.9rem;
+            font-size: .9rem;
             font-weight: 400;
             text-decoration: none;
-            transition: color 0.2s ease;
-            padding: 0.85rem 0;
+            transition: color .2s;
         }
 
         .btn-ghost:hover {
@@ -197,44 +197,36 @@
         }
 
         .btn-ghost .arrow {
-            transition: transform 0.2s ease;
+            transition: transform .2s;
         }
 
         .btn-ghost:hover .arrow {
             transform: translateX(4px);
         }
 
-        /* hero stats bar */
         .hero-stats {
             display: flex;
-            align-items: center;
             gap: 2.5rem;
             margin-top: 3.5rem;
             padding-top: 2rem;
             border-top: 1px solid var(--border);
         }
 
-        .hero-stat-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
-        }
-
-        .hero-stat-item strong {
+        .hero-stat strong {
+            display: block;
             font-family: var(--font-display);
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--green);
         }
 
-        .hero-stat-item span {
+        .hero-stat span {
             font-family: var(--font-body);
-            font-size: 0.78rem;
+            font-size: .78rem;
             color: var(--text-muted);
-            letter-spacing: 0.04em;
         }
 
-        /* HERO IMAGE SIDE */
+        /* ── HERO IMAGE ── */
         .hero-visual {
             position: relative;
             z-index: 1;
@@ -250,58 +242,56 @@
             }
         }
 
-        .hero-image-wrap {
-            position: relative;
+        .hero-img-wrap {
             border-radius: 20px;
             overflow: hidden;
-            background: var(--surface);
             border: 1px solid var(--border);
             aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: relative;
+            background: var(--surface);
         }
 
-        .hero-image-wrap img {
+        .hero-img-wrap img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
 
-        /* placeholder if no image */
-        .hero-image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            color: var(--text-muted);
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-        }
-
-        .hero-image-placeholder svg {
-            opacity: 0.2;
-        }
-
-        /* floating badge on image */
-        .hero-float-badge {
+        .hero-float-1 {
             position: absolute;
             bottom: 1.5rem;
             left: 1.5rem;
-            background: rgba(15, 15, 15, 0.85);
+            background: rgba(12, 12, 12, .88);
             backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 0.75rem 1.2rem;
+            padding: .75rem 1.2rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            animation: floatBadge 4s ease-in-out infinite;
+            gap: .75rem;
+            animation: floatBob 4s ease-in-out infinite;
         }
 
-        @keyframes floatBadge {
+        .hero-float-2 {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(12, 12, 12, .88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(62, 207, 142, .2);
+            border-radius: 10px;
+            padding: .55rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--font-body);
+            font-size: .78rem;
+            color: var(--green);
+            animation: floatBob 4s ease-in-out infinite 2s;
+        }
+
+        @keyframes floatBob {
 
             0%,
             100% {
@@ -313,10 +303,10 @@
             }
         }
 
-        .hero-float-badge .badge-icon {
+        .float-icon {
             width: 36px;
             height: 36px;
-            background: rgba(62, 207, 142, 0.12);
+            background: rgba(62, 207, 142, .12);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -325,37 +315,17 @@
             font-size: 1.1rem;
         }
 
-        .badge-text strong {
+        .float-text strong {
             display: block;
             font-family: var(--font-display);
-            font-size: 0.85rem;
+            font-size: .85rem;
             color: var(--text-primary);
         }
 
-        .badge-text span {
+        .float-text span {
             font-family: var(--font-body);
-            font-size: 0.72rem;
+            font-size: .72rem;
             color: var(--text-muted);
-        }
-
-        /* second float badge top right */
-        .hero-float-badge-2 {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(15, 15, 15, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(62, 207, 142, 0.2);
-            border-radius: 12px;
-            padding: 0.6rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--font-body);
-            font-size: 0.78rem;
-            color: var(--green);
-            font-weight: 500;
-            animation: floatBadge 4s ease-in-out infinite 2s;
         }
 
         .dot-green {
@@ -363,21 +333,21 @@
             height: 7px;
             background: var(--green);
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 2s infinite;
         }
 
-        /* ── FEATURED SECTION ── */
+        /* ── SECTION LABELS ── */
         .section-label {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: .75rem;
             font-family: var(--font-body);
-            font-size: 0.72rem;
-            letter-spacing: 0.18em;
+            font-size: .72rem;
+            letter-spacing: .18em;
             text-transform: uppercase;
             color: var(--green);
             font-weight: 500;
-            margin-bottom: 1rem;
+            margin-bottom: .75rem;
         }
 
         .section-label::before {
@@ -389,20 +359,56 @@
 
         .section-title {
             font-family: var(--font-display);
-            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: .5rem;
         }
 
         .section-sub {
             font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: .92rem;
             font-weight: 300;
             margin-bottom: 3rem;
         }
 
+        /* ── IMAGE STRIP ── */
+        .image-strip {
+            padding: 0 var(--spacing-xl) 5rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .strip-img {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .strip-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform .4s;
+        }
+
+        .strip-img:hover img {
+            transform: scale(1.03);
+        }
+
+        .strip-img.tall {
+            aspect-ratio: 4/3;
+        }
+
+        .strip-img.short {
+            aspect-ratio: 1;
+        }
+
+        /* ── FEATURED ── */
         .featured {
             padding: 6rem var(--spacing-xl);
         }
@@ -425,72 +431,61 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform .3s, border-color .3s, box-shadow .3s;
             opacity: 0;
             transform: translateY(20px);
-            animation: fadeUp 0.6s ease forwards;
+            animation: fadeUp .6s ease forwards;
         }
 
         .product-card:nth-child(1) {
-            animation-delay: 0.1s;
+            animation-delay: .1s;
         }
 
         .product-card:nth-child(2) {
-            animation-delay: 0.2s;
+            animation-delay: .2s;
         }
 
         .product-card:nth-child(3) {
-            animation-delay: 0.3s;
+            animation-delay: .3s;
         }
 
         .product-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(62, 207, 142, 0.35);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(62, 207, 142, 0.1);
+            border-color: rgba(62, 207, 142, .35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
         }
 
         .card-image {
             aspect-ratio: 16/10;
-            background: var(--surface-raised);
             position: relative;
             overflow: hidden;
+            background: var(--surface-raised);
         }
 
         .card-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s ease;
+            transition: transform .4s;
         }
 
         .product-card:hover .card-image img {
             transform: scale(1.04);
         }
 
-        /* placeholder when no image */
-        .card-image-placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.08);
-            font-size: 3rem;
-        }
-
         .card-badge {
             position: absolute;
-            top: 0.75rem;
-            left: 0.75rem;
-            background: rgba(62, 207, 142, 0.15);
-            border: 1px solid rgba(62, 207, 142, 0.3);
+            top: .75rem;
+            left: .75rem;
+            background: rgba(62, 207, 142, .15);
+            border: 1px solid rgba(62, 207, 142, .3);
             color: var(--green);
             font-family: var(--font-body);
-            font-size: 0.68rem;
+            font-size: .65rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            padding: 0.25rem 0.65rem;
+            letter-spacing: .08em;
+            padding: .22rem .6rem;
             border-radius: 6px;
         }
 
@@ -500,25 +495,33 @@
 
         .card-brand {
             font-family: var(--font-body);
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
+            font-size: .7rem;
+            letter-spacing: .12em;
             text-transform: uppercase;
             color: var(--text-muted);
-            margin-bottom: 0.4rem;
+            margin-bottom: .35rem;
         }
 
         .card-name {
             font-family: var(--font-display);
-            font-size: 1rem;
+            font-size: .98rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 0.6rem;
+            margin-bottom: .4rem;
             line-height: 1.3;
+        }
+
+        .card-desc {
+            font-family: var(--font-body);
+            font-size: .8rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1rem;
         }
 
         .card-specs {
             display: flex;
-            gap: 0.5rem;
+            gap: .4rem;
             flex-wrap: wrap;
             margin-bottom: 1.2rem;
         }
@@ -528,8 +531,8 @@
             border: 1px solid var(--border);
             color: var(--text-muted);
             font-family: var(--font-body);
-            font-size: 0.68rem;
-            padding: 0.25rem 0.6rem;
+            font-size: .65rem;
+            padding: .2rem .55rem;
             border-radius: 4px;
         }
 
@@ -541,42 +544,42 @@
 
         .card-price {
             font-family: var(--font-display);
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: var(--green);
         }
 
-        .card-price span {
-            font-size: 0.78rem;
+        .card-price small {
+            font-size: .72rem;
             color: var(--text-muted);
-            font-weight: 400;
             font-family: var(--font-body);
+            font-weight: 400;
         }
 
         .btn-card {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            background: rgba(62, 207, 142, 0.1);
-            border: 1px solid rgba(62, 207, 142, 0.2);
+            gap: .4rem;
+            background: rgba(62, 207, 142, .1);
+            border: 1px solid rgba(62, 207, 142, .2);
             color: var(--green);
             font-family: var(--font-body);
-            font-size: 0.8rem;
+            font-size: .78rem;
             font-weight: 500;
-            padding: 0.55rem 1rem;
+            padding: .5rem .9rem;
             border-radius: 7px;
             text-decoration: none;
             cursor: pointer;
-            transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+            transition: background .2s, border-color .2s, transform .2s;
         }
 
         .btn-card:hover {
-            background: rgba(62, 207, 142, 0.18);
-            border-color: rgba(62, 207, 142, 0.5);
+            background: rgba(62, 207, 142, .18);
+            border-color: rgba(62, 207, 142, .5);
             transform: translateY(-1px);
         }
 
-        /* ── WHY PIXELCART ── */
+        /* ── WHY US ── */
         .why-section {
             padding: 6rem var(--spacing-xl);
             background: var(--surface);
@@ -598,7 +601,7 @@
             background: var(--bg);
             position: relative;
             overflow: hidden;
-            transition: border-color 0.3s ease, transform 0.3s ease;
+            transition: border-color .3s, transform .3s;
         }
 
         .why-card::before {
@@ -610,11 +613,11 @@
             height: 2px;
             background: linear-gradient(90deg, transparent, var(--green), transparent);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity .3s;
         }
 
         .why-card:hover {
-            border-color: rgba(62, 207, 142, 0.25);
+            border-color: rgba(62, 207, 142, .25);
             transform: translateY(-4px);
         }
 
@@ -625,12 +628,11 @@
         .why-icon {
             width: 44px;
             height: 44px;
-            background: rgba(62, 207, 142, 0.1);
+            background: rgba(62, 207, 142, .1);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--green);
             font-size: 1.2rem;
             margin-bottom: 1.2rem;
         }
@@ -640,17 +642,17 @@
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 0.6rem;
+            margin-bottom: .6rem;
         }
 
         .why-card p {
             font-family: var(--font-body);
-            font-size: 0.85rem;
+            font-size: .83rem;
             color: var(--text-muted);
             line-height: 1.65;
         }
 
-        /* ── MPESA SECTION ── */
+        /* ── MPESA ── */
         .mpesa-section {
             padding: 6rem var(--spacing-xl);
             display: grid;
@@ -659,16 +661,12 @@
             align-items: center;
         }
 
-        .mpesa-visual {
-            position: relative;
-        }
-
         .mpesa-phone-mock {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 28px;
             padding: 2rem;
-            max-width: 280px;
+            max-width: 290px;
             margin: 0 auto;
             position: relative;
         }
@@ -678,92 +676,110 @@
             position: absolute;
             inset: -1px;
             border-radius: 29px;
-            background: linear-gradient(135deg, rgba(62, 207, 142, 0.2), transparent 50%);
+            background: linear-gradient(135deg, rgba(62, 207, 142, .18), transparent 55%);
             z-index: -1;
+        }
+
+        .mock-label {
+            font-family: var(--font-body);
+            font-size: .7rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--green);
+            text-align: center;
+            margin-bottom: 1.2rem;
         }
 
         .mpesa-step {
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 0.9rem;
+            padding: .85rem;
             border-radius: 10px;
-            margin-bottom: 0.75rem;
             background: var(--surface-raised);
             border: 1px solid var(--border);
+            margin-bottom: .75rem;
             opacity: 0;
             transform: translateX(-15px);
+            transition: opacity .5s ease, transform .5s ease;
         }
 
-        .mpesa-step.animate {
-            animation: fadeRight 0.5s ease forwards;
+        .mpesa-step.visible {
+            opacity: 1;
+            transform: translateX(0);
         }
 
-        .mpesa-step:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .mpesa-step:nth-child(2) {
-            animation-delay: 0.3s;
-        }
-
-        .mpesa-step:nth-child(3) {
-            animation-delay: 0.5s;
-        }
-
-        .mpesa-step:nth-child(4) {
-            animation-delay: 0.7s;
-        }
-
-        @keyframes fadeRight {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .mpesa-step-num {
+        .step-num {
             width: 28px;
             height: 28px;
-            background: rgba(62, 207, 142, 0.12);
+            flex-shrink: 0;
+            background: rgba(62, 207, 142, .12);
             color: var(--green);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: var(--font-display);
-            font-size: 0.78rem;
+            font-size: .75rem;
             font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .mpesa-step p {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin: 0;
         }
 
         .mpesa-step strong {
             display: block;
             font-family: var(--font-body);
-            font-size: 0.82rem;
+            font-size: .82rem;
             color: var(--text-primary);
             font-weight: 500;
         }
 
-        /* glow ring */
-        .mpesa-glow {
-            position: absolute;
-            inset: -30px;
-            background: radial-gradient(ellipse at center, rgba(62, 207, 142, 0.06) 0%, transparent 65%);
-            pointer-events: none;
-            border-radius: 50%;
+        .mpesa-step p {
+            font-family: var(--font-body);
+            font-size: .75rem;
+            color: var(--text-muted);
+            margin: 0;
         }
 
-        /* ── NEWSLETTER / CTA BAND ── */
+        .mpesa-trust {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: rgba(62, 207, 142, .08);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .trust-item strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: .88rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .trust-item span {
+            font-family: var(--font-body);
+            font-size: .78rem;
+            color: var(--text-muted);
+        }
+
+        /* ── CTA ── */
         .cta-band {
-            margin: 0 var(--spacing-xl) 6rem;
+            margin: 0 var(--spacing-xl) 5rem;
             padding: 4rem;
             background: var(--surface);
             border: 1px solid var(--border);
@@ -783,8 +799,7 @@
             right: -10%;
             width: 400px;
             height: 400px;
-            background: radial-gradient(ellipse, rgba(62, 207, 142, 0.07) 0%, transparent 65%);
-            pointer-events: none;
+            background: radial-gradient(ellipse, rgba(62, 207, 142, .07) 0%, transparent 65%);
         }
 
         .cta-band h2 {
@@ -792,26 +807,20 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: .5rem;
         }
 
         .cta-band p {
             font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.92rem;
+            font-size: .9rem;
             max-width: 380px;
-        }
-
-        .cta-band-actions {
-            display: flex;
-            gap: 1rem;
-            flex-shrink: 0;
         }
 
         /* ── FOOTER ── */
         footer {
             border-top: 1px solid var(--border);
-            padding: 3rem var(--spacing-xl);
+            padding: 3rem var(--spacing-xl) 0;
             display: grid;
             grid-template-columns: 1.5fr 1fr 1fr 1fr;
             gap: 3rem;
@@ -819,20 +828,19 @@
 
         .footer-brand p {
             font-family: var(--font-body);
-            font-size: 0.85rem;
+            font-size: .84rem;
             color: var(--text-muted);
             line-height: 1.7;
-            margin-top: 0.75rem;
+            margin-top: .75rem;
             max-width: 240px;
         }
 
         .footer-col h4 {
             font-family: var(--font-display);
-            font-size: 0.85rem;
+            font-size: .85rem;
             font-weight: 600;
             color: var(--text-primary);
             margin-bottom: 1.2rem;
-            letter-spacing: 0.04em;
         }
 
         .footer-col ul {
@@ -840,15 +848,15 @@
         }
 
         .footer-col ul li {
-            margin-bottom: 0.65rem;
+            margin-bottom: .65rem;
         }
 
         .footer-col ul li a {
             font-family: var(--font-body);
-            font-size: 0.85rem;
+            font-size: .83rem;
             color: var(--text-muted);
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: color .2s;
         }
 
         .footer-col ul li a:hover {
@@ -856,22 +864,35 @@
         }
 
         .footer-bottom {
-            padding: 1.5rem var(--spacing-xl);
+            margin-top: 2.5rem;
+            padding: 1.25rem var(--spacing-xl);
             border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: .75rem;
         }
 
         .footer-bottom p {
             font-family: var(--font-body);
-            font-size: 0.78rem;
+            font-size: .75rem;
             color: var(--text-muted);
         }
 
         .footer-bottom a {
             color: var(--green);
             text-decoration: none;
+        }
+
+        .footer-warning {
+            font-family: var(--font-body);
+            font-size: .72rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: .75rem var(--spacing-xl);
+            border-top: 1px solid var(--border);
+            background: rgba(62, 207, 142, .02);
         }
 
         /* ── ANIMATIONS ── */
@@ -883,7 +904,13 @@
         }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
+        @media(max-width:1100px) {
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:960px) {
             .hero {
                 grid-template-columns: 1fr;
                 padding-top: 7rem;
@@ -897,16 +924,21 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .why-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .mpesa-section {
                 grid-template-columns: 1fr;
             }
 
-            .mpesa-visual {
+            .mpesa-phone-mock {
                 display: none;
+            }
+
+            .image-strip {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .image-strip .strip-img.tall {
+                grid-column: 1/-1;
+                aspect-ratio: 16/7;
             }
 
             footer {
@@ -914,7 +946,7 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @media(max-width:640px) {
             .products-grid {
                 grid-template-columns: 1fr;
             }
@@ -931,14 +963,20 @@
 
             .cta-band {
                 flex-direction: column;
-            }
-
-            footer {
-                grid-template-columns: 1fr;
+                padding: 2.5rem;
             }
 
             .hero-stats {
                 gap: 1.5rem;
+            }
+
+            .image-strip {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                grid-template-columns: 1fr;
+                gap: 2rem;
             }
         }
     </style>
@@ -946,22 +984,23 @@
 
 <body>
 
-    <!-- ══ NAV ══ -->
+    <!-- ══ NAVBAR ══ -->
     <nav class="navbar">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>
+            <img src="images/logo.png" alt="PixelCart Logo"
+                style="width:30px;height:30px;object-fit:contain;border-radius:7px;">
             PixelCart
         </a>
-
         <ul class="nav-links">
             <li><a href="index.html" class="active">Home</a></li>
             <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
-
         <div class="nav-actions">
-            <a href="cart.html" class="nav-cart">
+            <a href="cart.html" class="nav-cart" title="View Cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
@@ -969,31 +1008,22 @@
                 </svg>
                 <span class="cart-count" id="cartCount">0</span>
             </a>
-            <a href="products.html" class="btn-primary" style="font-size:0.82rem;padding:0.6rem 1.2rem;">
-                Shop Now
-            </a>
+            <a href="products.html" class="btn-primary" style="font-size:.82rem;padding:.6rem 1.2rem;">Shop Now</a>
         </div>
     </nav>
 
     <!-- ══ HERO ══ -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-badge">
-                <span></span>
-                New arrivals this week
-            </div>
-
+            <div class="hero-badge"><span class="dot"></span>New arrivals this week</div>
             <h1 class="hero-title">
-                Power Your<br>
-                World with<br>
+                Power Your<br>World with<br>
                 <span class="accent">Premium Laptops</span>
             </h1>
-
             <p class="hero-sub">
-                Discover high-performance laptops curated for creators, professionals, and students.
-                Pay seamlessly with M-Pesa — no card needed.
+                Discover high-performance laptops curated for creators, professionals,
+                and students. Pay seamlessly with M-Pesa — no bank card needed.
             </p>
-
             <div class="hero-actions">
                 <a href="products.html" class="btn-primary">
                     Explore Collection
@@ -1002,55 +1032,38 @@
                         <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                 </a>
-                <a href="about.html" class="btn-ghost">
-                    About Us <span class="arrow">→</span>
-                </a>
+                <a href="about.html" class="btn-ghost">About Us <span class="arrow">→</span></a>
             </div>
-
             <div class="hero-stats">
-                <div class="hero-stat-item">
-                    <strong>120+</strong>
-                    <span>Laptop Models</span>
-                </div>
-                <div class="hero-stat-item">
-                    <strong>2,400+</strong>
-                    <span>Happy Customers</span>
-                </div>
-                <div class="hero-stat-item">
-                    <strong>4.9★</strong>
-                    <span>Avg. Rating</span>
-                </div>
+                <div class="hero-stat"><strong>120+</strong><span>Laptop Models</span></div>
+                <div class="hero-stat"><strong>2,400+</strong><span>Happy Customers</span></div>
+                <div class="hero-stat"><strong>4.9★</strong><span>Avg. Rating</span></div>
             </div>
         </div>
 
-        <!-- Hero visual — add your hero laptop image -->
         <div class="hero-visual">
-            <div class="hero-image-wrap">
-                <!-- Replace src with your image: <img src="images/hero-laptop.png" alt="Featured Laptop"> -->
-                <div class="hero-image-placeholder">
-                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                        <rect x="2" y="3" width="20" height="14" rx="2" />
-                        <path d="M0 21h24" />
-                    </svg>
-                    <span>Add hero-laptop.png</span>
-                </div>
-
-                <!-- floating badges -->
-                <div class="hero-float-badge">
-                    <div class="badge-icon">✓</div>
-                    <div class="badge-text">
+            <div class="hero-img-wrap">
+                <img src="images/hero.jpg" alt="Premium Laptop Collection" />
+                <div class="hero-float-1">
+                    <div class="float-icon">✓</div>
+                    <div class="float-text">
                         <strong>M-Pesa Accepted</strong>
                         <span>Instant payment confirmation</span>
                     </div>
                 </div>
-
-                <div class="hero-float-badge-2">
-                    <div class="dot-green"></div>
-                    Free delivery in Nairobi
+                <div class="hero-float-2">
+                    <div class="dot-green"></div>Free delivery in Nairobi
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- ══ IMAGE STRIP — satisfies 3-5 images requirement ══ -->
+    <div class="image-strip">
+        <div class="strip-img tall"><img src="images/strip-1.jpg" alt="Laptop workspace setup" /></div>
+        <div class="strip-img short"><img src="images/strip-2.jpg" alt="MacBook close up" /></div>
+        <div class="strip-img short"><img src="images/strip-3.jpg" alt="Gaming laptop setup" /></div>
+    </div>
 
     <!-- ══ FEATURED PRODUCTS ══ -->
     <section class="featured">
@@ -1060,99 +1073,68 @@
                 <h2 class="section-title">Featured Laptops</h2>
                 <p class="section-sub">Top picks based on performance and value</p>
             </div>
-            <a href="products.html" class="btn-ghost">
-                View all products <span class="arrow">→</span>
-            </a>
+            <a href="products.html" class="btn-ghost">View all →</a>
         </div>
 
         <div class="products-grid">
-
-            <!-- CARD 1 — replace with dynamic PHP/JS later -->
             <div class="product-card">
                 <div class="card-image">
-                    <!-- <img src="images/laptop-1.jpg" alt="MacBook Pro"> -->
-                    <div class="card-image-placeholder">💻</div>
+                    <img src="images/laptop-1.jpg" alt="MacBook Pro 14 M3" />
                     <span class="card-badge">Best Seller</span>
                 </div>
                 <div class="card-body">
                     <div class="card-brand">Apple</div>
                     <div class="card-name">MacBook Pro 14" M3</div>
+                    <div class="card-desc">Powerhouse performance with Apple's M3 chip. Perfect for creators and
+                        developers.</div>
                     <div class="card-specs">
-                        <span class="spec-tag">M3 Chip</span>
-                        <span class="spec-tag">16GB RAM</span>
-                        <span class="spec-tag">512GB SSD</span>
+                        <span class="spec-tag">M3 Chip</span><span class="spec-tag">16GB RAM</span><span
+                            class="spec-tag">512GB SSD</span>
                     </div>
                     <div class="card-footer">
-                        <div class="card-price">
-                            KES 185,000 <span>/ unit</span>
-                        </div>
-                        <a href="product-detail.html" class="btn-card">
-                            View
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
+                        <div class="card-price">KES 185,000 <small>/ unit</small></div>
+                        <a href="product-detail.html" class="btn-card">View →</a>
                     </div>
                 </div>
             </div>
 
-            <!-- CARD 2 -->
             <div class="product-card">
                 <div class="card-image">
-                    <!-- <img src="images/laptop-2.jpg" alt="Dell XPS"> -->
-                    <div class="card-image-placeholder">💻</div>
+                    <img src="images/laptop-3.jpg" alt="Dell XPS 15" />
                     <span class="card-badge">Popular</span>
                 </div>
                 <div class="card-body">
                     <div class="card-brand">Dell</div>
-                    <div class="card-name">XPS 15 OLED Touch</div>
+                    <div class="card-name">Dell XPS 15 OLED</div>
+                    <div class="card-desc">Stunning OLED display with pro-grade power for designers and video editors.
+                    </div>
                     <div class="card-specs">
-                        <span class="spec-tag">i9-13900H</span>
-                        <span class="spec-tag">32GB RAM</span>
-                        <span class="spec-tag">1TB SSD</span>
+                        <span class="spec-tag">i9-13900H</span><span class="spec-tag">32GB RAM</span><span
+                            class="spec-tag">1TB SSD</span>
                     </div>
                     <div class="card-footer">
-                        <div class="card-price">
-                            KES 220,000 <span>/ unit</span>
-                        </div>
-                        <a href="product-detail.html" class="btn-card">
-                            View
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
+                        <div class="card-price">KES 220,000 <small>/ unit</small></div>
+                        <a href="product-detail.html" class="btn-card">View →</a>
                     </div>
                 </div>
             </div>
 
-            <!-- CARD 3 -->
             <div class="product-card">
                 <div class="card-image">
-                    <!-- <img src="images/laptop-3.jpg" alt="Lenovo ThinkPad"> -->
-                    <div class="card-image-placeholder">💻</div>
-                    <span class="card-badge">Value Pick</span>
+                    <img src="images/laptop-9.jpg" alt="Asus ROG Zephyrus G14" />
+                    <span class="card-badge">Gaming</span>
                 </div>
                 <div class="card-body">
-                    <div class="card-brand">Lenovo</div>
-                    <div class="card-name">ThinkPad X1 Carbon</div>
+                    <div class="card-brand">Asus</div>
+                    <div class="card-name">ROG Zephyrus G14</div>
+                    <div class="card-desc">Slim gaming powerhouse with RTX 4060 graphics and 165Hz display.</div>
                     <div class="card-specs">
-                        <span class="spec-tag">i7-1365U</span>
-                        <span class="spec-tag">16GB RAM</span>
-                        <span class="spec-tag">512GB SSD</span>
+                        <span class="spec-tag">Ryzen 9</span><span class="spec-tag">16GB RAM</span><span
+                            class="spec-tag">RTX 4060</span>
                     </div>
                     <div class="card-footer">
-                        <div class="card-price">
-                            KES 140,000 <span>/ unit</span>
-                        </div>
-                        <a href="product-detail.html" class="btn-card">
-                            View
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </a>
+                        <div class="card-price">KES 175,000 <small>/ unit</small></div>
+                        <a href="product-detail.html" class="btn-card">View →</a>
                     </div>
                 </div>
             </div>
@@ -1164,7 +1146,6 @@
         <div class="section-label">Why us</div>
         <h2 class="section-title">Built for Kenyan Shoppers</h2>
         <p class="section-sub">Everything you need, nothing you don't</p>
-
         <div class="why-grid">
             <div class="why-card">
                 <div class="why-icon">📱</div>
@@ -1179,7 +1160,7 @@
             <div class="why-card">
                 <div class="why-icon">🛡️</div>
                 <h3>Warranty Assured</h3>
-                <p>All laptops come with a minimum 1-year manufacturer warranty. We've got you covered.</p>
+                <p>All laptops come with a minimum 1-year manufacturer warranty.</p>
             </div>
             <div class="why-card">
                 <div class="why-icon">💬</div>
@@ -1189,192 +1170,164 @@
         </div>
     </section>
 
-    <!-- ══ MPESA PAYMENT SECTION ══ -->
+    <!-- ══ MPESA SECTION ══ -->
     <section class="mpesa-section">
         <div>
             <div class="section-label">Payments</div>
             <h2 class="section-title">Pay with M-Pesa,<br>The Kenyan Way</h2>
             <p class="section-sub" style="margin-bottom:2rem;">
-                No credit card, no hassle. Our Daraja API integration means you get an STK push straight
-                to your phone — confirm with your PIN and your order is placed instantly.
+                No credit card, no hassle. Our Daraja API integration sends an STK push
+                straight to your phone — confirm with your PIN and your order is placed instantly.
             </p>
-
-            <div style="display:flex;flex-direction:column;gap:1rem;">
-                <div style="display:flex;align-items:center;gap:1rem;">
-                    <div class="why-icon" style="flex-shrink:0;">✅</div>
-                    <div>
-                        <div
-                            style="font-family:var(--font-display);font-size:0.9rem;color:var(--text-primary);font-weight:600;">
-                            Instant Confirmation</div>
-                        <div style="font-family:var(--font-body);font-size:0.82rem;color:var(--text-muted);">Order
-                            confirmed the moment payment is received</div>
-                    </div>
+            <div class="mpesa-trust">
+                <div class="trust-item">
+                    <div class="trust-icon">✅</div>
+                    <div><strong>Instant Confirmation</strong><span>Order confirmed the moment payment is
+                            received</span></div>
                 </div>
-                <div style="display:flex;align-items:center;gap:1rem;">
-                    <div class="why-icon" style="flex-shrink:0;">🔒</div>
-                    <div>
-                        <div
-                            style="font-family:var(--font-display);font-size:0.9rem;color:var(--text-primary);font-weight:600;">
-                            100% Secure</div>
-                        <div style="font-family:var(--font-body);font-size:0.82rem;color:var(--text-muted);">All
-                            transactions go through Safaricom's official Daraja API</div>
-                    </div>
+                <div class="trust-item">
+                    <div class="trust-icon">🔒</div>
+                    <div><strong>100% Secure</strong><span>All transactions through Safaricom's official Daraja
+                            API</span></div>
                 </div>
-                <div style="display:flex;align-items:center;gap:1rem;">
-                    <div class="why-icon" style="flex-shrink:0;">📋</div>
-                    <div>
-                        <div
-                            style="font-family:var(--font-display);font-size:0.9rem;color:var(--text-primary);font-weight:600;">
-                            Auto Receipt</div>
-                        <div style="font-family:var(--font-body);font-size:0.82rem;color:var(--text-muted);">M-Pesa SMS
-                            receipt saved automatically to your order</div>
+                <div class="trust-item">
+                    <div class="trust-icon">📋</div>
+                    <div><strong>Auto Receipt</strong><span>M-Pesa SMS receipt saved to your order automatically</span>
                     </div>
                 </div>
             </div>
-
-            <a href="products.html" class="btn-primary" style="margin-top:2.5rem;display:inline-flex;">
-                Start Shopping →
-            </a>
+            <a href="products.html" class="btn-primary" style="margin-top:2.5rem;display:inline-flex;">Start Shopping
+                →</a>
         </div>
 
-        <!-- Phone mock -->
-        <div class="mpesa-visual">
-            <div class="mpesa-glow"></div>
-            <div class="mpesa-phone-mock">
-                <div
-                    style="font-family:var(--font-body);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:1.2rem;text-align:center;">
-                    How It Works
+        <div class="mpesa-phone-mock">
+            <div class="mock-label">How It Works</div>
+            <div class="mpesa-step">
+                <div class="step-num">1</div>
+                <div><strong>Add to Cart</strong>
+                    <p>Select your laptop and go to checkout</p>
                 </div>
-                <div class="mpesa-step animate">
-                    <div class="mpesa-step-num">1</div>
-                    <div>
-                        <strong>Add to Cart</strong>
-                        <p>Select your laptop and go to checkout</p>
-                    </div>
+            </div>
+            <div class="mpesa-step">
+                <div class="step-num">2</div>
+                <div><strong>Enter M-Pesa Number</strong>
+                    <p>Use your Safaricom number</p>
                 </div>
-                <div class="mpesa-step animate">
-                    <div class="mpesa-step-num">2</div>
-                    <div>
-                        <strong>Enter M-Pesa Number</strong>
-                        <p>Use your Safaricom number</p>
-                    </div>
+            </div>
+            <div class="mpesa-step">
+                <div class="step-num">3</div>
+                <div><strong>STK Push Sent</strong>
+                    <p>A prompt appears on your phone</p>
                 </div>
-                <div class="mpesa-step animate">
-                    <div class="mpesa-step-num">3</div>
-                    <div>
-                        <strong>STK Push Sent</strong>
-                        <p>A prompt appears on your phone</p>
-                    </div>
-                </div>
-                <div class="mpesa-step animate">
-                    <div class="mpesa-step-num">4</div>
-                    <div>
-                        <strong>Enter PIN & Done</strong>
-                        <p>Order placed — we'll be in touch!</p>
-                    </div>
+            </div>
+            <div class="mpesa-step">
+                <div class="step-num">4</div>
+                <div><strong>Enter PIN & Done</strong>
+                    <p>Order placed — we'll be in touch!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ══ CTA BAND ══ -->
+    <!-- ══ CTA ══ -->
     <div class="cta-band">
         <div>
             <h2>Ready to upgrade your setup?</h2>
-            <p>Browse our full collection of laptops — from budget picks to pro-grade machines.</p>
+            <p>Browse our full collection — from budget picks to pro-grade machines, all payable via M-Pesa.</p>
         </div>
-        <div class="cta-band-actions">
-            <a href="products.html" class="btn-primary">Browse Laptops →</a>
-        </div>
+        <a href="products.html" class="btn-primary">Browse All Laptops →</a>
     </div>
 
     <!-- ══ FOOTER ══ -->
     <footer>
         <div class="footer-brand">
-            <a href="index.html" class="nav-logo" style="font-size:1.1rem;">
-                <div class="logo-icon">P</div>
+            <a href="index.html" class="nav-logo">
+                <img src="images/logo.png" alt="PixelCart"
+                    style="width:28px;height:28px;object-fit:contain;border-radius:6px;">
                 PixelCart
             </a>
-            <p>Premium laptops for every Kenyan. Powered by M-Pesa for effortless payments.</p>
+            <p>Premium laptops for every Kenyan. Powered by M-Pesa for effortless, secure payments.</p>
         </div>
-
         <div class="footer-col">
             <h4>Shop</h4>
             <ul>
                 <li><a href="products.html">All Laptops</a></li>
                 <li><a href="products.html">MacBooks</a></li>
-                <li><a href="products.html">Gaming</a></li>
-                <li><a href="products.html">Business</a></li>
+                <li><a href="products.html">Gaming Laptops</a></li>
+                <li><a href="products.html">Business Laptops</a></li>
+                <li><a href="products.html">Budget Picks</a></li>
             </ul>
         </div>
-
         <div class="footer-col">
             <h4>Company</h4>
             <ul>
                 <li><a href="about.html">About Us</a></li>
-                <li><a href="about.html#contact">Contact</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Returns</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
-
         <div class="footer-col">
-            <h4>Contact</h4>
+            <h4>Reach Us</h4>
             <ul>
+                <li><a href="https://wa.me/254700000000" target="_blank">WhatsApp Us</a></li>
                 <li><a href="tel:+254700000000">+254 700 000 000</a></li>
                 <li><a href="mailto:hello@pixelcart.co.ke">hello@pixelcart.co.ke</a></li>
-                <li><a href="#">WhatsApp Us</a></li>
-                <li><a href="#">Nairobi, Kenya</a></li>
+                <li><a href="https://maps.google.com/?q=Westlands+Nairobi" target="_blank">Westlands, Nairobi 📍</a>
+                </li>
             </ul>
         </div>
     </footer>
 
     <div class="footer-bottom">
-        <p>© 2025 PixelCart. All rights reserved.</p>
-        <p>Payments secured by <a href="#">Safaricom Daraja API</a></p>
+        <p>© 2025 PixelCart · All Rights Reserved</p>
+        <p>Payments secured by <a href="https://developer.safaricom.co.ke" target="_blank">Safaricom Daraja API</a></p>
+    </div>
+
+    <div class="footer-warning">
+        ⚠️ All prices are in Kenyan Shillings (KES) and subject to change without notice. Products subject to
+        availability. PixelCart accepts M-Pesa payments only.
     </div>
 
     <script src="js/main.js"></script>
     <script>
-        // INDEX PAGE SCRIPT
+        Cart.updateBadge();
 
-        // Update cart count from localStorage
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('pixelcart_cart') || '[]');
-            const total = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
-            document.getElementById('cartCount').textContent = total;
-        }
-        updateCartCount();
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').style.borderBottomColor =
+                window.scrollY > 20 ? 'rgba(62,207,142,0.15)' : 'var(--border)';
+        });
 
-        // Intersection Observer for scroll animations
-        const observer = new IntersectionObserver((entries) => {
+        // Animate M-Pesa steps on scroll
+        const stepObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.querySelectorAll('.mpesa-step').forEach(el => {
-                        el.classList.add('animate');
+                    entry.target.querySelectorAll('.mpesa-step').forEach((s, i) => {
+                        setTimeout(() => s.classList.add('visible'), i * 180);
                     });
-                    entry.target.querySelectorAll('.why-card').forEach((el, i) => {
-                        el.style.opacity = '0';
-                        el.style.transform = 'translateY(20px)';
-                        el.style.transition = `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`;
-                        requestAnimationFrame(() => {
-                            el.style.opacity = '1';
-                            el.style.transform = 'translateY(0)';
-                        });
+                    stepObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const mpesaSec = document.querySelector('.mpesa-section');
+        if (mpesaSec) stepObserver.observe(mpesaSec);
+
+        // Animate why cards on scroll
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.why-card').forEach((c, i) => {
+                        c.style.cssText = `opacity:0;transform:translateY(20px);transition:opacity .5s ease ${i * .1}s,transform .5s ease ${i * .1}s`;
+                        setTimeout(() => { c.style.opacity = '1'; c.style.transform = 'translateY(0)'; }, 50);
                     });
+                    cardObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.2 });
 
-        document.querySelectorAll('.why-section, .mpesa-section').forEach(el => observer.observe(el));
-
-        // Navbar scroll shadow
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('.navbar');
-            nav.style.borderBottomColor = window.scrollY > 20
-                ? 'rgba(62,207,142,0.12)'
-                : 'var(--border)';
-        });
+        const whySec = document.querySelector('.why-section');
+        if (whySec) cardObserver.observe(whySec);
     </script>
 </body>
 

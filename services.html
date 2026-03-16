@@ -5,18 +5,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Services — PixelCart</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
+
     <style>
-        /* HEADER */
+        /* ════════════════════════════
+       SERVICES.HTML — PAGE STYLES
+    ════════════════════════════ */
+
+        /* ── PAGE HEADER ── */
         .page-header {
-            padding: 8rem var(--spacing-xl) 4rem;
+            padding: 8rem var(--spacing-xl) 5rem;
             text-align: center;
             position: relative;
             overflow: hidden;
+            border-bottom: 1px solid var(--border);
         }
 
         .page-header::before {
@@ -24,42 +31,71 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(62, 207, 142, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(62, 207, 142, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+                linear-gradient(rgba(62, 207, 142, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(62, 207, 142, 0.04) 1px, transparent 1px);
+            background-size: 55px 55px;
+            pointer-events: none;
         }
 
         .page-header::after {
             content: '';
             position: absolute;
-            top: 20%;
+            top: 15%;
             left: 50%;
             transform: translateX(-50%);
-            width: 500px;
-            height: 300px;
+            width: 600px;
+            height: 350px;
             background: radial-gradient(ellipse, rgba(62, 207, 142, 0.07) 0%, transparent 70%);
             pointer-events: none;
+        }
+
+        .page-header-inner {
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(22px);
+            animation: fadeUp 0.7s ease forwards 0.1s;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .breadcrumb span {
+            color: var(--green);
         }
 
         .section-label {
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.75rem;
             font-family: var(--font-body);
             font-size: 0.72rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--green);
+            font-weight: 500;
             margin-bottom: 1rem;
         }
 
-        .section-label::before {
-            content: '';
-            width: 20px;
-            height: 1px;
-            background: var(--green);
-        }
-
+        .section-label::before,
         .section-label::after {
             content: '';
             width: 20px;
@@ -69,12 +105,11 @@
 
         .page-title {
             font-family: var(--font-display);
-            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-size: clamp(2.2rem, 4vw, 3.5rem);
             font-weight: 800;
             color: var(--text-primary);
+            line-height: 1.1;
             margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
         }
 
         .page-sub {
@@ -83,11 +118,10 @@
             font-size: 1rem;
             max-width: 520px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
+            line-height: 1.75;
         }
 
-        /* SERVICES GRID */
+        /* ── SERVICES GRID ── */
         .services-section {
             padding: 5rem var(--spacing-xl);
         }
@@ -96,7 +130,6 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
         }
 
         .service-card {
@@ -106,33 +139,35 @@
             padding: 2rem;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
             transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
             opacity: 0;
             animation: fadeUp 0.5s ease forwards;
         }
 
         .service-card:nth-child(1) {
-            animation-delay: 0.05s;
+            animation-delay: .05s;
         }
 
         .service-card:nth-child(2) {
-            animation-delay: 0.12s;
+            animation-delay: .1s;
         }
 
         .service-card:nth-child(3) {
-            animation-delay: 0.19s;
+            animation-delay: .15s;
         }
 
         .service-card:nth-child(4) {
-            animation-delay: 0.26s;
+            animation-delay: .2s;
         }
 
         .service-card:nth-child(5) {
-            animation-delay: 0.33s;
+            animation-delay: .25s;
         }
 
         .service-card:nth-child(6) {
-            animation-delay: 0.40s;
+            animation-delay: .3s;
         }
 
         .service-card::before {
@@ -160,7 +195,7 @@
         /* featured card */
         .service-card.featured {
             border-color: rgba(62, 207, 142, 0.2);
-            background: linear-gradient(135deg, var(--surface) 0%, rgba(62, 207, 142, 0.04) 100%);
+            background: linear-gradient(160deg, var(--surface) 60%, rgba(62, 207, 142, 0.04) 100%);
         }
 
         .featured-tag {
@@ -207,6 +242,7 @@
             color: var(--text-muted);
             line-height: 1.7;
             margin-bottom: 1.5rem;
+            flex: 1;
         }
 
         .service-price {
@@ -214,26 +250,28 @@
             font-size: 1.3rem;
             font-weight: 800;
             color: var(--green);
-            margin-bottom: 0.25rem;
         }
 
         .service-price-note {
             font-family: var(--font-body);
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.4rem;
+            margin-top: 0.2rem;
         }
 
         .service-features {
             list-style: none;
             margin-bottom: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
         }
 
         .service-features li {
             font-family: var(--font-body);
             font-size: 0.82rem;
             color: var(--text-muted);
-            padding: 0.35rem 0;
             display: flex;
             align-items: center;
             gap: 0.6rem;
@@ -243,23 +281,26 @@
             content: '✓';
             color: var(--green);
             font-weight: 700;
+            flex-shrink: 0;
         }
 
         .btn-service {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             background: rgba(62, 207, 142, 0.1);
             border: 1px solid rgba(62, 207, 142, 0.25);
             color: var(--green);
             font-family: var(--font-body);
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
-            padding: 0.7rem 1.2rem;
-            border-radius: 8px;
+            padding: 0.75rem 1.2rem;
+            border-radius: 9px;
             cursor: pointer;
             text-decoration: none;
             transition: background 0.2s, border-color 0.2s, transform 0.2s;
+            margin-top: auto;
         }
 
         .btn-service:hover {
@@ -278,11 +319,12 @@
             box-shadow: 0 6px 20px rgba(62, 207, 142, 0.3);
         }
 
-        /* HOW IT WORKS */
+        /* ── HOW IT WORKS ── */
         .how-section {
             padding: 5rem var(--spacing-xl);
             background: var(--surface);
             border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
         .how-header {
@@ -297,32 +339,44 @@
             color: var(--text-primary);
         }
 
+        .how-sub {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
         .how-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
+            position: relative;
+        }
+
+        /* connector line between steps */
+        .how-grid::before {
+            content: '';
+            position: absolute;
+            top: 22px;
+            left: calc(12.5% + 20px);
+            right: calc(12.5% + 20px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), var(--border), var(--border), transparent);
+            z-index: 0;
         }
 
         .how-step {
             text-align: center;
-            padding: 1.5rem 1rem;
+            padding: 0 1rem;
             position: relative;
-        }
-
-        .how-step:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            top: 2rem;
-            right: -0.75rem;
-            color: rgba(62, 207, 142, 0.3);
-            font-size: 1.2rem;
+            z-index: 1;
         }
 
         .how-num {
             width: 44px;
             height: 44px;
-            background: rgba(62, 207, 142, 0.1);
-            border: 1px solid rgba(62, 207, 142, 0.2);
+            background: var(--bg);
+            border: 1px solid rgba(62, 207, 142, 0.3);
             color: var(--green);
             font-family: var(--font-display);
             font-size: 1rem;
@@ -331,7 +385,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1rem;
+            margin: 0 auto 1.2rem;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .how-step:hover .how-num {
+            background: rgba(62, 207, 142, 0.12);
+            border-color: var(--green);
         }
 
         .how-step h4 {
@@ -346,10 +406,107 @@
             font-family: var(--font-body);
             font-size: 0.82rem;
             color: var(--text-muted);
-            line-height: 1.6;
+            line-height: 1.65;
         }
 
-        /* CONTACT CTA */
+        /* ── TESTIMONIALS ── */
+        .testimonials-section {
+            padding: 5rem var(--spacing-xl);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .testimonial-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .testimonial-card:nth-child(1) {
+            animation-delay: .05s;
+        }
+
+        .testimonial-card:nth-child(2) {
+            animation-delay: .12s;
+        }
+
+        .testimonial-card:nth-child(3) {
+            animation-delay: .19s;
+        }
+
+        .testimonial-card:hover {
+            border-color: rgba(62, 207, 142, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .quote-mark {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            color: rgba(62, 207, 142, 0.15);
+            line-height: 1;
+            margin-bottom: -0.5rem;
+        }
+
+        .testimonial-text {
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .author-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(62, 207, 142, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .author-name {
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .author-detail {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .author-stars {
+            color: var(--green);
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        /* ── CTA BAND ── */
         .cta-band {
             margin: 0 var(--spacing-xl) 5rem;
             padding: 4rem;
@@ -371,7 +528,7 @@
             right: -5%;
             width: 400px;
             height: 400px;
-            background: radial-gradient(ellipse, rgba(62, 207, 142, 0.07) 0%, transparent 65%);
+            background: radial-gradient(ellipse, rgba(62, 207, 142, .07) 0%, transparent 65%);
         }
 
         .cta-band h2 {
@@ -379,41 +536,63 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: .5rem;
         }
 
         .cta-band p {
             font-family: var(--font-body);
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: .9rem;
+            max-width: 400px;
         }
 
         .cta-actions {
             display: flex;
             gap: 1rem;
             flex-shrink: 0;
+            flex-wrap: wrap;
         }
 
         .btn-primary {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: .6rem;
             background: var(--green);
             color: #0a0a0a;
             font-family: var(--font-body);
-            font-size: 0.9rem;
+            font-size: .9rem;
             font-weight: 600;
-            padding: 0.85rem 1.8rem;
+            padding: .85rem 2rem;
             border-radius: 8px;
             text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform .2s, box-shadow .2s;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(62, 207, 142, 0.3);
+            box-shadow: 0 8px 30px rgba(62, 207, 142, .35);
         }
 
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            border: 1px solid rgba(62, 207, 142, .3);
+            color: var(--green);
+            font-family: var(--font-body);
+            font-size: .9rem;
+            font-weight: 500;
+            padding: .85rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .btn-outline:hover {
+            background: rgba(62, 207, 142, .07);
+        }
+
+        /* ── ANIMATIONS ── */
         @keyframes fadeUp {
             to {
                 opacity: 1;
@@ -421,7 +600,8 @@
             }
         }
 
-        @media (max-width: 1024px) {
+        /* ── RESPONSIVE ── */
+        @media(max-width:1024px) {
             .services-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -430,22 +610,31 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .how-step::after {
+            .how-grid::before {
                 display: none;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 640px) {
+        @media(max-width:640px) {
             .services-grid {
                 grid-template-columns: 1fr;
             }
 
             .how-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
                 grid-template-columns: 1fr;
             }
 
             .cta-band {
                 flex-direction: column;
+                padding: 2.5rem;
             }
         }
     </style>
@@ -453,9 +642,12 @@
 
 <body>
 
+    <!-- ══ NAVBAR ══ -->
     <nav class="navbar">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart Logo"
+                style="width:30px;height:30px;object-fit:contain;border-radius:7px;">
+            PixelCart
         </a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -463,9 +655,10 @@
             <li><a href="services.html" class="active">Services</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="cart.html" class="nav-cart">
+            <a href="cart.html" class="nav-cart" title="View Cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
@@ -476,109 +669,136 @@
         </div>
     </nav>
 
-    <!-- HEADER -->
+    <!-- ══ PAGE HEADER ══ -->
     <div class="page-header">
-        <div class="section-label">What we offer</div>
-        <h1 class="page-title">Laptop Services<br>You Can Trust</h1>
-        <p class="page-sub">From repairs to trade-ins, we keep your tech running — right here in Nairobi.</p>
+        <div class="page-header-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Services</span>
+            </div>
+            <div class="section-label">What we offer</div>
+            <h1 class="page-title">Laptop Services<br>You Can Trust</h1>
+            <p class="page-sub">
+                From repairs to trade-ins, performance upgrades to extended warranties —
+                we keep your tech running at its best, right here in Nairobi.
+            </p>
+        </div>
     </div>
 
-    <!-- SERVICES GRID -->
+    <!-- ══ SERVICES GRID ══ -->
     <section class="services-section">
         <div class="services-grid">
 
+            <!-- 1. Repair — Featured -->
             <div class="service-card featured">
                 <div class="featured-tag">★ Most Popular</div>
                 <div class="service-icon">🔧</div>
                 <div class="service-name">Laptop Repair</div>
-                <div class="service-desc">Screen replacements, keyboard fixes, motherboard repairs, liquid damage —
-                    handled by certified technicians.</div>
+                <div class="service-desc">
+                    Screen replacements, keyboard fixes, motherboard repairs, and liquid damage recovery —
+                    all handled by our certified in-house technicians.
+                </div>
                 <div class="service-price">From KES 2,500</div>
-                <div class="service-price-note">Diagnosis is free. No fix, no charge.</div>
+                <div class="service-price-note">Free diagnosis · No fix, no charge</div>
                 <ul class="service-features">
-                    <li>Screen replacement</li>
+                    <li>Screen replacement (all brands)</li>
                     <li>Keyboard & trackpad repair</li>
                     <li>Battery replacement</li>
                     <li>Liquid damage recovery</li>
+                    <li>Motherboard-level repair</li>
                 </ul>
-                <a href="about.html#contact" class="btn-service solid">Book Repair →</a>
+                <a href="contact.html" class="btn-service solid">Book a Repair →</a>
             </div>
 
+            <!-- 2. Performance Upgrade -->
             <div class="service-card">
                 <div class="service-icon">⚡</div>
                 <div class="service-name">Performance Upgrade</div>
-                <div class="service-desc">Slow laptop? We upgrade RAM, replace HDDs with SSDs, and clean up bloatware to
-                    restore peak performance.</div>
+                <div class="service-desc">
+                    Slow laptop? We upgrade RAM, replace HDDs with SSDs, deep-clean internals,
+                    and remove bloatware to restore peak performance in as little as 2 hours.
+                </div>
                 <div class="service-price">From KES 3,000</div>
-                <div class="service-price-note">Includes parts + labor</div>
+                <div class="service-price-note">Includes parts + labour</div>
                 <ul class="service-features">
                     <li>RAM upgrade (up to 32GB)</li>
-                    <li>SSD installation</li>
+                    <li>HDD to SSD replacement</li>
                     <li>Thermal paste replacement</li>
                     <li>Deep software cleanup</li>
                 </ul>
-                <a href="about.html#contact" class="btn-service">Get Quote →</a>
+                <a href="contact.html" class="btn-service">Get a Quote →</a>
             </div>
 
+            <!-- 3. Trade-In -->
             <div class="service-card">
                 <div class="service-icon">🔄</div>
                 <div class="service-name">Trade-In Program</div>
-                <div class="service-desc">Upgrade your old laptop for a newer model. We assess your device and give you
-                    a fair trade-in value instantly.</div>
+                <div class="service-desc">
+                    Upgrade your old laptop for a newer model. We assess your device on the spot
+                    and give you a fair, transparent trade-in value you can use immediately.
+                </div>
                 <div class="service-price">Earn up to KES 80,000</div>
-                <div class="service-price-note">Value depends on condition & model</div>
+                <div class="service-price-note">Value depends on model and condition</div>
                 <ul class="service-features">
-                    <li>Instant assessment</li>
-                    <li>All brands accepted</li>
-                    <li>Credit towards new purchase</li>
+                    <li>Instant on-the-spot assessment</li>
+                    <li>All major brands accepted</li>
+                    <li>Credit applied to new purchase</li>
                     <li>Data wiped securely</li>
                 </ul>
-                <a href="about.html#contact" class="btn-service">Get Valuation →</a>
+                <a href="contact.html" class="btn-service">Get a Valuation →</a>
             </div>
 
+            <!-- 4. Extended Warranty -->
             <div class="service-card">
                 <div class="service-icon">🛡️</div>
                 <div class="service-name">Extended Warranty</div>
-                <div class="service-desc">Get up to 2 extra years of coverage on any laptop purchased from PixelCart.
-                    Peace of mind, guaranteed.</div>
+                <div class="service-desc">
+                    Get up to 2 extra years of coverage on any laptop purchased from PixelCart.
+                    Covers hardware failures, accidental damage, and priority support.
+                </div>
                 <div class="service-price">From KES 5,000 / yr</div>
                 <div class="service-price-note">Covers hardware failures & accidents</div>
                 <ul class="service-features">
                     <li>Accidental damage cover</li>
-                    <li>Free pickup & delivery</li>
-                    <li>Priority support</li>
+                    <li>Free pickup & return delivery</li>
+                    <li>Priority repair queue</li>
                     <li>Loan device while in repair</li>
                 </ul>
-                <a href="about.html#contact" class="btn-service">Learn More →</a>
+                <a href="contact.html" class="btn-service">Learn More →</a>
             </div>
 
+            <!-- 5. Data Recovery -->
             <div class="service-card">
                 <div class="service-icon">💾</div>
                 <div class="service-name">Data Recovery</div>
-                <div class="service-desc">Lost your files? Our data recovery team handles crashed drives, deleted files,
-                    and formatted storage.</div>
+                <div class="service-desc">
+                    Lost your files? Our data recovery team handles crashed drives, accidentally
+                    deleted files, and formatted storage — fast and confidentially.
+                </div>
                 <div class="service-price">From KES 4,000</div>
                 <div class="service-price-note">No data recovered = no charge</div>
                 <ul class="service-features">
                     <li>HDD & SSD recovery</li>
                     <li>Deleted file restoration</li>
                     <li>Formatted drive recovery</li>
-                    <li>Confidential & secure</li>
+                    <li>100% confidential process</li>
                 </ul>
-                <a href="about.html#contact" class="btn-service">Get Help →</a>
+                <a href="contact.html" class="btn-service">Get Help →</a>
             </div>
 
+            <!-- 6. Delivery & Setup -->
             <div class="service-card">
                 <div class="service-icon">🚚</div>
                 <div class="service-name">Delivery & Setup</div>
-                <div class="service-desc">We deliver your new laptop and set it up for you — accounts, software,
-                    security. Ready to use in 30 mins.</div>
+                <div class="service-desc">
+                    We deliver your new laptop and set it up for you — accounts, software, security
+                    settings. Ready to use within 30 minutes of delivery.
+                </div>
                 <div class="service-price">Free in Nairobi</div>
                 <div class="service-price-note">KES 500 outside Nairobi CBD</div>
                 <ul class="service-features">
                     <li>Same-day Nairobi delivery</li>
                     <li>OS & software setup</li>
-                    <li>Account migration</li>
+                    <li>Account & data migration</li>
                     <li>Basic usage walkthrough</li>
                 </ul>
                 <a href="products.html" class="btn-service">Shop & Get Delivered →</a>
@@ -587,62 +807,143 @@
         </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- ══ HOW IT WORKS ══ -->
     <section class="how-section">
         <div class="how-header">
-            <div class="section-label" style="justify-content:center;">The process</div>
+            <div class="section-label">The process</div>
             <h2 class="how-title">How Our Services Work</h2>
+            <p class="how-sub">Simple, transparent, no surprises</p>
         </div>
         <div class="how-grid">
             <div class="how-step">
                 <div class="how-num">1</div>
                 <h4>Contact Us</h4>
-                <p>Reach out via WhatsApp, call, or the contact form on our About page.</p>
+                <p>Reach out via WhatsApp, call, or the contact form. Tell us what you need — we respond within 30
+                    minutes.</p>
             </div>
             <div class="how-step">
                 <div class="how-num">2</div>
                 <h4>Free Assessment</h4>
-                <p>We assess your device or request and give you a clear quote — no hidden fees.</p>
+                <p>We assess your device or request and give you a clear, itemised quote. No hidden fees. No obligation.
+                </p>
             </div>
             <div class="how-step">
                 <div class="how-num">3</div>
                 <h4>We Get to Work</h4>
-                <p>Our technicians handle your device with care. You get real-time updates.</p>
+                <p>Our technicians handle everything with care. You get real-time updates on progress via WhatsApp.</p>
             </div>
             <div class="how-step">
                 <div class="how-num">4</div>
-                <h4>Pickup or Delivery</h4>
-                <p>Collect your device or have it delivered back to you across Nairobi.</p>
+                <h4>Collect or Delivery</h4>
+                <p>Pick up your device from Westlands or have it delivered back to you anywhere in Nairobi.</p>
             </div>
         </div>
     </section>
 
-    <!-- CTA BAND -->
+    <!-- ══ TESTIMONIALS ══ -->
+    <section class="testimonials-section">
+        <div class="section-label" style="display:flex;align-items:center;gap:.75rem;">
+            <span style="width:24px;height:1px;background:var(--green);display:block;"></span>
+            What customers say
+        </div>
+        <h2
+            style="font-family:var(--font-display);font-size:clamp(1.7rem,3vw,2.4rem);font-weight:700;color:var(--text-primary);margin-bottom:.4rem;">
+            Real Reviews
+        </h2>
+        <p style="font-family:var(--font-body);color:var(--text-muted);font-size:.92rem;margin-bottom:0;">
+            From students to professionals — here's what our customers say
+        </p>
+
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                    Bought a MacBook Pro and paid via M-Pesa — the whole process took less than 5 minutes.
+                    Delivered same day to my campus. Absolutely unmatched service in Nairobi.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨🏾‍🎓</div>
+                    <div>
+                        <div class="author-name">Kevin Njoroge</div>
+                        <div class="author-detail">Student, University of Nairobi</div>
+                    </div>
+                    <div class="author-stars">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                    My Dell XPS had a cracked screen. PixelCart replaced it in under 3 hours and the
+                    price was very fair. They even called to give me updates. Highly recommend the repair service.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👩🏾‍💼</div>
+                    <div>
+                        <div class="author-name">Wanjiru Kamau</div>
+                        <div class="author-detail">Graphic Designer, Nairobi</div>
+                    </div>
+                    <div class="author-stars">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="quote-mark">"</div>
+                <p class="testimonial-text">
+                    Used the trade-in program to upgrade from my old HP to a new Lenovo ThinkPad.
+                    They gave me a great valuation and applied it instantly. The whole process was transparent.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">👨🏾‍💻</div>
+                    <div>
+                        <div class="author-name">David Ochieng</div>
+                        <div class="author-detail">Software Developer, Westlands</div>
+                    </div>
+                    <div class="author-stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ CTA BAND ══ -->
     <div class="cta-band">
         <div>
             <h2>Need a service? Let's talk.</h2>
-            <p>WhatsApp us or fill in the contact form — we respond within 30 minutes during business hours.</p>
+            <p>WhatsApp us or fill in the contact form — we respond within 30 minutes during business hours, 8AM–8PM
+                daily.</p>
         </div>
         <div class="cta-actions">
-            <a href="about.html#contact" class="btn-primary">Contact Us →</a>
+            <a href="https://wa.me/254700000000" target="_blank" class="btn-primary">💬 WhatsApp Us →</a>
+            <a href="contact.html" class="btn-outline">Contact Form</a>
         </div>
     </div>
 
+    <!-- ══ FOOTER ══ -->
     <footer
         style="border-top:1px solid var(--border);padding:2rem var(--spacing-xl);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart"
+                style="width:26px;height:26px;object-fit:contain;border-radius:6px;">
+            PixelCart
         </a>
-        <p style="font-family:var(--font-body);font-size:0.78rem;color:var(--text-muted);">
-            © 2025 PixelCart · <a href="about.html" style="color:var(--green);text-decoration:none;">About</a> · <a
-                href="products.html" style="color:var(--green);text-decoration:none;">Products</a>
+        <p style="font-family:var(--font-body);font-size:.78rem;color:var(--text-muted);">
+            © 2025 PixelCart ·
+            <a href="products.html" style="color:var(--green);text-decoration:none;">Products</a> ·
+            <a href="about.html" style="color:var(--green);text-decoration:none;">About</a> ·
+            <a href="contact.html" style="color:var(--green);text-decoration:none;">Contact</a>
         </p>
     </footer>
 
     <script src="js/main.js"></script>
     <script>
-        document.getElementById('cartCount').textContent = Cart.count();
+        Cart.updateBadge();
+
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').style.borderBottomColor =
+                window.scrollY > 20 ? 'rgba(62,207,142,0.15)' : 'var(--border)';
+        });
     </script>
+
 </body>
 
 </html>

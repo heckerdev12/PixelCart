@@ -15,28 +15,19 @@ function getMpesaToken()
 {
     $credentials = base64_encode(CONSUMER_KEY . ':' . CONSUMER_SECRET);
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,            AUTH_URL);
-    curl_setopt($ch, CURLOPT_HTTPHEADER,     ['Authorization: Basic ' . $credentials]);
+    $ch = curl_init(AUTH_URL);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Basic ' . $credentials
+    ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_TIMEOUT,        30);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_HTTPGET,        true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // OK for sandbox/local
 
     $response = curl_exec($ch);
     $error    = curl_error($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    // Add this temporarily to debug
-    if (empty($response)) {
-        return [
-            'success'  => false,
-            'error'    => "Empty response. HTTP Code: $httpCode. Curl error: $error"
-        ];
+    if ($error) {
+        return ['success' => false, 'error' => $error];
     }
 
     $data = json_decode($response, true);

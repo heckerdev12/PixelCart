@@ -4,12 +4,14 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MacBook Pro 14" — PixelCart</title>
+    <title>Product — PixelCart</title>
+    <link rel="icon" type="image/png" href="images/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/style.css" />
+
     <style>
         .detail-wrapper {
             padding: 7rem var(--spacing-xl) 4rem;
@@ -46,62 +48,48 @@
             align-items: start;
         }
 
-        /* LEFT — Images */
-        .detail-images {}
-
-        .main-image {
-            background: var(--surface);
-            border: 1px solid var(--border);
+        /* IMAGE */
+        .detail-image-wrap {
             border-radius: 18px;
-            aspect-ratio: 4/3;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
-            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            aspect-ratio: 4/3;
             position: relative;
+            background: var(--surface);
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: fadeRight 0.7s ease forwards 0.1s;
         }
 
-        .main-image img {
+        @keyframes fadeRight {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .detail-image-wrap img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            display: block;
+            padding: 0.5rem;
         }
 
-        .main-image-placeholder {
-            font-size: 5rem;
-            color: rgba(255, 255, 255, 0.06);
-        }
-
-        .thumb-row {
-            display: flex;
-            gap: 0.75rem;
-        }
-
-        .thumb {
-            flex: 1;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.06);
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .thumb.active,
-        .thumb:hover {
-            border-color: var(--green);
-        }
-
-        /* RIGHT — Info */
+        /* INFO */
         .detail-info {
             position: sticky;
             top: 5.5rem;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: fadeLeft 0.7s ease forwards 0.2s;
+        }
+
+        @keyframes fadeLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .detail-brand {
@@ -122,17 +110,17 @@
             margin-bottom: 1rem;
         }
 
-        .detail-rating {
+        .detail-meta {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 1rem;
+            flex-wrap: wrap;
             margin-bottom: 1.5rem;
         }
 
         .stars {
             color: var(--green);
             font-size: 0.9rem;
-            letter-spacing: 0.1em;
         }
 
         .rating-count {
@@ -141,7 +129,7 @@
             color: var(--text-muted);
         }
 
-        .in-stock {
+        .stock-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
@@ -154,7 +142,7 @@
             border-radius: 999px;
         }
 
-        .in-stock::before {
+        .stock-badge::before {
             content: '';
             width: 6px;
             height: 6px;
@@ -162,11 +150,11 @@
             border-radius: 50%;
         }
 
-        .detail-price-wrap {
+        .price-block {
             padding: 1.5rem 0;
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
-            margin: 1.5rem 0;
+            margin-bottom: 1.8rem;
         }
 
         .detail-price {
@@ -180,10 +168,9 @@
             font-family: var(--font-body);
             font-size: 0.8rem;
             color: var(--text-muted);
-            margin-top: 0.25rem;
+            margin-top: 0.3rem;
         }
 
-        /* Specs table */
         .specs-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -196,9 +183,14 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 0.85rem 1rem;
+            transition: border-color 0.2s;
         }
 
-        .spec-item .spec-label {
+        .spec-item:hover {
+            border-color: rgba(62, 207, 142, 0.2);
+        }
+
+        .spec-label {
             font-family: var(--font-body);
             font-size: 0.68rem;
             letter-spacing: 0.1em;
@@ -207,15 +199,14 @@
             margin-bottom: 0.3rem;
         }
 
-        .spec-item .spec-value {
+        .spec-value {
             font-family: var(--font-display);
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
         }
 
-        /* Qty + Add to cart */
-        .add-to-cart-row {
+        .cart-row {
             display: flex;
             gap: 1rem;
             align-items: center;
@@ -225,7 +216,6 @@
         .qty-control {
             display: flex;
             align-items: center;
-            gap: 0;
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 9px;
@@ -260,7 +250,7 @@
             color: var(--text-primary);
         }
 
-        .btn-add-cart {
+        .btn-add {
             flex: 1;
             display: flex;
             align-items: center;
@@ -270,20 +260,20 @@
             color: #0a0a0a;
             font-family: var(--font-body);
             font-size: 0.9rem;
-            font-weight: 600;
-            padding: 0.85rem 1.5rem;
+            font-weight: 700;
+            padding: 0.85rem;
             border-radius: 9px;
             border: none;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .btn-add-cart:hover {
+        .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(62, 207, 142, 0.3);
+            box-shadow: 0 8px 25px rgba(62, 207, 142, 0.3);
         }
 
-        .btn-buy-now {
+        .btn-buy {
             width: 100%;
             display: flex;
             align-items: center;
@@ -298,19 +288,21 @@
             padding: 0.85rem;
             border-radius: 9px;
             cursor: pointer;
-            transition: background 0.2s;
             text-decoration: none;
+            transition: background 0.2s;
         }
 
-        .btn-buy-now:hover {
+        .btn-buy:hover {
             background: rgba(62, 207, 142, 0.07);
         }
 
-        /* Description tabs */
+        /* TABS */
+        .tabs-section {
+            margin-top: 4rem;
+        }
+
         .tabs {
             display: flex;
-            gap: 0;
-            margin-top: 4rem;
             border-bottom: 1px solid var(--border);
         }
 
@@ -323,6 +315,14 @@
             border-bottom: 2px solid transparent;
             transition: color 0.2s, border-color 0.2s;
             margin-bottom: -1px;
+            background: none;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
         }
 
         .tab-btn.active {
@@ -332,33 +332,42 @@
 
         .tab-content {
             padding: 2rem 0;
+            display: none;
             font-family: var(--font-body);
             font-size: 0.9rem;
             color: var(--text-muted);
             line-height: 1.8;
-            display: none;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        /* Related products */
-        .related {
+        .tab-content p+p {
+            margin-top: 1rem;
+        }
+
+        .tab-content strong {
+            color: var(--text-primary);
+        }
+
+        /* RELATED */
+        .related-section {
             padding: 4rem var(--spacing-xl);
             border-top: 1px solid var(--border);
         }
 
         .section-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
             font-family: var(--font-body);
             font-size: 0.72rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
             color: var(--green);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
         }
 
         .section-label::before {
@@ -387,7 +396,9 @@
             border: 1px solid var(--border);
             border-radius: 14px;
             overflow: hidden;
+            text-decoration: none;
             transition: transform 0.3s, border-color 0.3s;
+            display: block;
         }
 
         .mini-card:hover {
@@ -398,11 +409,22 @@
         .mini-card-img {
             aspect-ratio: 16/9;
             background: var(--surface-raised);
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
-            color: rgba(255, 255, 255, 0.06);
+        }
+
+        .mini-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .mini-card:hover .mini-card-img img {
+            transform: scale(1.04);
         }
 
         .mini-card-body {
@@ -424,7 +446,61 @@
             font-weight: 700;
         }
 
-        @media (max-width: 1024px) {
+        /* NOT FOUND */
+        .not-found {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .not-found h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .not-found p {
+            font-family: var(--font-body);
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .not-found a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--green);
+            color: #0a0a0a;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem var(--spacing-xl);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        footer p {
+            font-family: var(--font-body);
+            font-size: .78rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--green);
+            text-decoration: none;
+        }
+
+        @media(max-width:1024px) {
             .detail-grid {
                 grid-template-columns: 1fr;
             }
@@ -438,13 +514,21 @@
             }
         }
 
-        @media (max-width: 640px) {
+        @media(max-width:640px) {
             .related-grid {
                 grid-template-columns: 1fr;
             }
 
             .specs-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .cart-row {
+                flex-direction: column;
+            }
+
+            .btn-add {
+                width: 100%;
             }
         }
     </style>
@@ -454,7 +538,9 @@
 
     <nav class="navbar">
         <a href="index.html" class="nav-logo">
-            <div class="logo-icon">P</div>PixelCart
+            <img src="images/logo.png" alt="PixelCart Logo"
+                style="width:30px;height:30px;object-fit:contain;border-radius:7px;">
+            PixelCart
         </a>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -462,9 +548,10 @@
             <li><a href="services.html">Services</a></li>
             <li><a href="cart.html">Cart</a></li>
             <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="cart.html" class="nav-cart">
+            <a href="cart.html" class="nav-cart" title="View Cart">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
@@ -475,171 +562,286 @@
         </div>
     </nav>
 
-    <div class="detail-wrapper">
-        <div class="breadcrumb">
-            <a href="index.html">Home</a> /
-            <a href="products.html">Products</a> /
-            <span>MacBook Pro 14"</span>
-        </div>
+    <!-- Content injected by JS -->
+    <div id="pageContent"></div>
 
-        <div class="detail-grid">
-            <!-- IMAGES -->
-            <div class="detail-images">
-                <div class="main-image">
-                    <!-- <img src="images/macbook-main.jpg" alt="MacBook Pro 14"> -->
-                    <div class="main-image-placeholder">💻</div>
-                </div>
-                <div class="thumb-row">
-                    <div class="thumb active">💻</div>
-                    <div class="thumb">🔋</div>
-                    <div class="thumb">⌨️</div>
-                    <div class="thumb">📦</div>
-                </div>
-            </div>
-
-            <!-- INFO -->
-            <div class="detail-info">
-                <div class="detail-brand">Apple</div>
-                <h1 class="detail-name">MacBook Pro 14"<br>M3 Chip</h1>
-
-                <div class="detail-rating">
-                    <div class="stars">★★★★★</div>
-                    <span class="rating-count">4.9 · 142 reviews</span>
-                    <span class="in-stock">In Stock</span>
-                </div>
-
-                <div class="detail-price-wrap">
-                    <div class="detail-price">KES 185,000</div>
-                    <div class="detail-price-note">Pay via M-Pesa · Free delivery in Nairobi</div>
-                </div>
-
-                <div class="specs-grid">
-                    <div class="spec-item">
-                        <div class="spec-label">Processor</div>
-                        <div class="spec-value">Apple M3</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">RAM</div>
-                        <div class="spec-value">16GB Unified</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Storage</div>
-                        <div class="spec-value">512GB SSD</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Display</div>
-                        <div class="spec-value">14.2" Liquid Retina</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">Battery</div>
-                        <div class="spec-value">Up to 18 hrs</div>
-                    </div>
-                    <div class="spec-item">
-                        <div class="spec-label">OS</div>
-                        <div class="spec-value">macOS Sonoma</div>
-                    </div>
-                </div>
-
-                <div class="add-to-cart-row">
-                    <div class="qty-control">
-                        <button class="qty-btn" onclick="changeQty(-1)">−</button>
-                        <div class="qty-num" id="qtyNum">1</div>
-                        <button class="qty-btn" onclick="changeQty(1)">+</button>
-                    </div>
-                    <button class="btn-add-cart" onclick="addToCartDetail()">
-                        🛒 Add to Cart
-                    </button>
-                </div>
-
-                <a href="cart.html" class="btn-buy-now">
-                    ⚡ Buy Now with M-Pesa
-                </a>
-            </div>
-        </div>
-
-        <!-- TABS -->
-        <div class="tabs">
-            <div class="tab-btn active" onclick="switchTab('desc', this)">Description</div>
-            <div class="tab-btn" onclick="switchTab('specs', this)">Full Specs</div>
-            <div class="tab-btn" onclick="switchTab('reviews', this)">Reviews (142)</div>
-        </div>
-
-        <div class="tab-content active" id="tab-desc">
-            <p>The MacBook Pro 14" with M3 chip delivers extraordinary performance in a compact form factor. Whether
-                you're editing 4K video, running machine learning models, or managing complex spreadsheets — the M3 chip
-                handles it all with ease while lasting all day on a single charge.</p>
-            <br>
-            <p>Featuring a stunning Liquid Retina XDR display with ProMotion technology, every pixel comes to life with
-                vibrant colors and crisp detail. The MagSafe charging port, three Thunderbolt 4 ports, HDMI, and SD card
-                slot give you all the connectivity you need.</p>
-        </div>
-
-        <div class="tab-content" id="tab-specs">
-            <p><strong style="color:var(--text-primary)">Chip:</strong> Apple M3, 8-core CPU, 10-core GPU<br>
-                <strong style="color:var(--text-primary)">Memory:</strong> 16GB unified memory<br>
-                <strong style="color:var(--text-primary)">Storage:</strong> 512GB SSD<br>
-                <strong style="color:var(--text-primary)">Display:</strong> 14.2-inch Liquid Retina XDR, 3024×1964,
-                ProMotion 120Hz<br>
-                <strong style="color:var(--text-primary)">Battery:</strong> 70Wh, up to 18 hours<br>
-                <strong style="color:var(--text-primary)">Ports:</strong> MagSafe 3, 3× Thunderbolt 4, HDMI, SD Card,
-                Headphone jack<br>
-                <strong style="color:var(--text-primary)">Weight:</strong> 1.55 kg
-            </p>
-        </div>
-
-        <div class="tab-content" id="tab-reviews">
-            <p style="color:var(--green);font-family:var(--font-display);font-size:2rem;font-weight:700;">4.9 / 5</p>
-            <p>Based on 142 verified purchases. Reviews will load dynamically via PHP.</p>
-        </div>
-    </div>
-
-    <!-- RELATED -->
-    <section class="related">
-        <div class="section-label">You may also like</div>
-        <h2 class="section-title">Related Laptops</h2>
-        <div class="related-grid">
-            <a href="product-detail.html" class="mini-card" style="text-decoration:none;">
-                <div class="mini-card-img">💻</div>
-                <div class="mini-card-body">
-                    <div class="mini-card-name">MacBook Air 15" M2</div>
-                    <div class="mini-card-price">KES 145,000</div>
-                </div>
-            </a>
-            <a href="product-detail.html" class="mini-card" style="text-decoration:none;">
-                <div class="mini-card-img">💻</div>
-                <div class="mini-card-body">
-                    <div class="mini-card-name">Dell XPS 15 OLED</div>
-                    <div class="mini-card-price">KES 220,000</div>
-                </div>
-            </a>
-            <a href="product-detail.html" class="mini-card" style="text-decoration:none;">
-                <div class="mini-card-img">💻</div>
-                <div class="mini-card-body">
-                    <div class="mini-card-name">Lenovo ThinkPad X1</div>
-                    <div class="mini-card-price">KES 140,000</div>
-                </div>
-            </a>
-        </div>
-    </section>
+    <footer>
+        <a href="index.html" class="nav-logo">
+            <img src="images/logo.png" alt="PixelCart"
+                style="width:26px;height:26px;object-fit:contain;border-radius:6px;">
+            PixelCart
+        </a>
+        <p>© 2025 PixelCart ·
+            <a href="products.html">Products</a> ·
+            <a href="services.html">Services</a> ·
+            <a href="contact.html">Contact</a>
+        </p>
+    </footer>
 
     <script src="js/main.js"></script>
     <script>
+        /* ══════════════════════════════
+           ALL 12 LAPTOPS DATA
+        ══════════════════════════════ */
+        const products = {
+            'macbook-pro-14': {
+                brand: 'Apple', name: 'MacBook Pro 14" M3',
+                image: 'images/laptop-1.jpg',
+                price: 185000, rating: '4.9', reviews: 142,
+                specs: { Processor: 'Apple M3', RAM: '16GB Unified', Storage: '512GB SSD', Display: '14.2" Liquid Retina', Battery: 'Up to 18 hrs', OS: 'macOS Sonoma' },
+                description: `The MacBook Pro 14" with M3 chip delivers extraordinary performance in a compact form factor. Whether you're editing 4K video, running machine learning models, or managing complex spreadsheets — the M3 chip handles it all with ease while lasting all day on a single charge.
+        
+Featuring a stunning Liquid Retina XDR display with ProMotion technology, every pixel comes to life with vibrant colors and crisp detail.`,
+                fullSpecs: `<strong>Chip:</strong> Apple M3, 8-core CPU, 10-core GPU<br><strong>Memory:</strong> 16GB unified memory<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 14.2" Liquid Retina XDR, 3024×1964, 120Hz<br><strong>Battery:</strong> 70Wh, up to 18 hours<br><strong>Ports:</strong> MagSafe 3, 3× Thunderbolt 4, HDMI, SD Card<br><strong>Weight:</strong> 1.55 kg`,
+                related: ['macbook-air-15', 'dell-xps-15', 'hp-spectre-x360']
+            },
+            'macbook-air-15': {
+                brand: 'Apple', name: 'MacBook Air 15" M2',
+                image: 'images/laptop-2.jpg',
+                price: 145000, rating: '4.8', reviews: 98,
+                specs: { Processor: 'Apple M2', RAM: '8GB Unified', Storage: '256GB SSD', Display: '15.3" Liquid Retina', Battery: 'Up to 18 hrs', OS: 'macOS Sonoma' },
+                description: `The world's best consumer laptop — incredibly thin, silent fanless design, and all-day battery life in a stunning 15-inch display. Perfect for students, creatives and professionals who want power without the weight.`,
+                fullSpecs: `<strong>Chip:</strong> Apple M2, 8-core CPU, 10-core GPU<br><strong>Memory:</strong> 8GB unified memory<br><strong>Storage:</strong> 256GB SSD<br><strong>Display:</strong> 15.3" Liquid Retina, 2880×1864<br><strong>Battery:</strong> 66.5Wh, up to 18 hours<br><strong>Ports:</strong> MagSafe 3, 2× Thunderbolt 4, Headphone jack<br><strong>Weight:</strong> 1.51 kg`,
+                related: ['macbook-pro-14', 'lenovo-ideapad-5', 'acer-swift-3']
+            },
+            'dell-xps-15': {
+                brand: 'Dell', name: 'Dell XPS 15 OLED',
+                image: 'images/laptop-3.jpg',
+                price: 220000, rating: '4.8', reviews: 76,
+                specs: { Processor: 'Intel i9-13900H', RAM: '32GB DDR5', Storage: '1TB SSD', Display: '15.6" 3.5K OLED', GPU: 'RTX 4060', OS: 'Windows 11' },
+                description: `A stunning 3.5K OLED touchscreen with InfinityEdge display, paired with Intel's latest i9 processor for peak creative workloads. Ideal for designers, video editors and developers who need colour-accurate displays.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i9-13900H<br><strong>Memory:</strong> 32GB DDR5<br><strong>Storage:</strong> 1TB NVMe SSD<br><strong>Display:</strong> 15.6" 3.5K OLED Touch, 3456×2160<br><strong>GPU:</strong> NVIDIA RTX 4060 8GB<br><strong>Battery:</strong> 86Wh<br><strong>Weight:</strong> 1.86 kg`,
+                related: ['macbook-pro-14', 'hp-elitebook-840', 'lenovo-thinkpad-x1']
+            },
+            'dell-inspiron-15': {
+                brand: 'Dell', name: 'Dell Inspiron 15',
+                image: 'images/laptop-4.jpg',
+                price: 72000, rating: '4.5', reviews: 203,
+                specs: { Processor: 'Intel i5-1235U', RAM: '8GB DDR4', Storage: '512GB SSD', Display: '15.6" FHD', Battery: 'Up to 8 hrs', OS: 'Windows 11' },
+                description: `Reliable everyday performance for students and home users. Solid build quality, long battery life, and upgradeable storage make the Inspiron 15 an excellent entry point into Dell's laptop lineup.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i5-1235U<br><strong>Memory:</strong> 8GB DDR4<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 15.6" FHD IPS, 1920×1080<br><strong>Battery:</strong> 54Wh, up to 8 hours<br><strong>Ports:</strong> USB-A, USB-C, HDMI, SD Card<br><strong>Weight:</strong> 1.65 kg`,
+                related: ['lenovo-ideapad-5', 'asus-vivobook-15', 'acer-swift-3']
+            },
+            'lenovo-thinkpad-x1': {
+                brand: 'Lenovo', name: 'ThinkPad X1 Carbon',
+                image: 'images/laptop-5.jpg',
+                price: 140000, rating: '4.9', reviews: 115,
+                specs: { Processor: 'Intel i7-1365U', RAM: '16GB LPDDR5', Storage: '512GB SSD', Display: '14" IPS', Battery: 'Up to 15 hrs', OS: 'Windows 11 Pro' },
+                description: `The gold standard for business laptops. Military-grade durability, legendary ThinkPad keyboard, and ultra-light carbon fibre chassis. Trusted by professionals worldwide for reliability in any environment.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i7-1365U<br><strong>Memory:</strong> 16GB LPDDR5<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 14" IPS, 1920×1200, anti-glare<br><strong>Battery:</strong> 57Wh, up to 15 hours<br><strong>Ports:</strong> 2× Thunderbolt 4, 2× USB-A, HDMI<br><strong>Weight:</strong> 1.12 kg`,
+                related: ['dell-xps-15', 'hp-elitebook-840', 'microsoft-surface-5']
+            },
+            'lenovo-ideapad-5': {
+                brand: 'Lenovo', name: 'IdeaPad 5 Gen 8',
+                image: 'images/laptop-6.jpg',
+                price: 65000, rating: '4.6', reviews: 189,
+                specs: { Processor: 'AMD Ryzen 5 7530U', RAM: '8GB DDR4', Storage: '512GB SSD', Display: '15.6" FHD', Battery: 'Up to 10 hrs', OS: 'Windows 11' },
+                description: `Excellent value for campus life — great display, comfortable keyboard, and AMD Ryzen power in a slim, lightweight package. The IdeaPad 5 strikes the perfect balance between price and performance for students.`,
+                fullSpecs: `<strong>Processor:</strong> AMD Ryzen 5 7530U<br><strong>Memory:</strong> 8GB DDR4<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 15.6" FHD IPS, 1920×1080<br><strong>Battery:</strong> 56Wh, up to 10 hours<br><strong>Ports:</strong> USB-A, USB-C, HDMI<br><strong>Weight:</strong> 1.7 kg`,
+                related: ['dell-inspiron-15', 'asus-vivobook-15', 'acer-swift-3']
+            },
+            'hp-spectre-x360': {
+                brand: 'HP', name: 'Spectre x360 14"',
+                image: 'images/laptop-7.jpg',
+                price: 155000, rating: '4.7', reviews: 88,
+                specs: { Processor: 'Intel i7-1355U', RAM: '16GB LPDDR5', Storage: '512GB SSD', Display: '14" OLED Touch', Battery: 'Up to 17 hrs', OS: 'Windows 11' },
+                description: `Premium 2-in-1 convertible with OLED touchscreen, pen support, and gem-cut design. Use it as a laptop, tablet, tent, or presentation stand. The Spectre x360 is HP's finest engineering in a stunning package.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i7-1355U<br><strong>Memory:</strong> 16GB LPDDR5<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 14" OLED Touch, 2880×1800, 90Hz<br><strong>Battery:</strong> 66Wh, up to 17 hours<br><strong>Ports:</strong> 2× Thunderbolt 4, USB-A, microSD<br><strong>Weight:</strong> 1.36 kg`,
+                related: ['macbook-pro-14', 'dell-xps-15', 'lenovo-thinkpad-x1']
+            },
+            'hp-elitebook-840': {
+                brand: 'HP', name: 'EliteBook 840 G10',
+                image: 'images/laptop-8.jpg',
+                price: 118000, rating: '4.7', reviews: 64,
+                specs: { Processor: 'Intel i5-1335U', RAM: '16GB DDR5', Storage: '512GB SSD', Display: '14" FHD', Battery: 'Up to 12 hrs', OS: 'Windows 11 Pro' },
+                description: `Enterprise-grade security, HP Sure View privacy screen, and impressive battery life make this the top choice for corporate professionals. Built to withstand demanding work environments with MIL-SPEC durability.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i5-1335U<br><strong>Memory:</strong> 16GB DDR5<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 14" FHD IPS, 1920×1080, anti-glare<br><strong>Battery:</strong> 51Wh, up to 12 hours<br><strong>Security:</strong> HP Sure View, fingerprint reader, TPM<br><strong>Weight:</strong> 1.37 kg`,
+                related: ['lenovo-thinkpad-x1', 'dell-xps-15', 'microsoft-surface-5']
+            },
+            'asus-rog-g14': {
+                brand: 'Asus ROG', name: 'Zephyrus G14 2024',
+                image: 'images/laptop-9.jpg',
+                price: 175000, rating: '4.9', reviews: 142,
+                specs: { Processor: 'AMD Ryzen 9 8945HS', RAM: '16GB DDR5', Storage: '1TB SSD', Display: '14" QHD 165Hz', GPU: 'RTX 4060', OS: 'Windows 11' },
+                description: `Compact gaming powerhouse with RTX 4060 graphics, 165Hz QHD display, and Ryzen 9 processor — all in a strikingly slim chassis. The Zephyrus G14 proves you don't need a bulky machine for serious gaming performance.`,
+                fullSpecs: `<strong>Processor:</strong> AMD Ryzen 9 8945HS<br><strong>Memory:</strong> 16GB DDR5<br><strong>Storage:</strong> 1TB NVMe SSD<br><strong>Display:</strong> 14" QHD 165Hz, 2560×1600<br><strong>GPU:</strong> NVIDIA RTX 4060 8GB<br><strong>Battery:</strong> 73Wh<br><strong>Weight:</strong> 1.65 kg`,
+                related: ['asus-vivobook-15', 'dell-xps-15', 'lenovo-ideapad-5']
+            },
+            'asus-vivobook-15': {
+                brand: 'Asus', name: 'VivoBook 15 X1502',
+                image: 'images/laptop-10.jpg',
+                price: 58000, rating: '4.5', reviews: 231,
+                specs: { Processor: 'Intel i5-12500H', RAM: '8GB DDR4', Storage: '512GB SSD', Display: '15.6" OLED', Battery: 'Up to 8 hrs', OS: 'Windows 11' },
+                description: `Great everyday laptop with vibrant OLED display and Intel 12th Gen processor. Perfect for students who want quality without the premium price. The VivoBook 15 delivers a premium display experience at an accessible price point.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i5-12500H<br><strong>Memory:</strong> 8GB DDR4<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 15.6" OLED FHD, 1920×1080, 60Hz<br><strong>Battery:</strong> 50Wh, up to 8 hours<br><strong>Ports:</strong> USB-A, USB-C, HDMI, SD Card<br><strong>Weight:</strong> 1.7 kg`,
+                related: ['lenovo-ideapad-5', 'dell-inspiron-15', 'acer-swift-3']
+            },
+            'microsoft-surface-5': {
+                brand: 'Microsoft', name: 'Surface Laptop 5',
+                image: 'images/laptop-11.jpg',
+                price: 95000, rating: '4.6', reviews: 77,
+                specs: { Processor: 'Intel i5-1235U', RAM: '8GB LPDDR5', Storage: '256GB SSD', Display: '13.5" Touch', Battery: 'Up to 19 hrs', OS: 'Windows 11' },
+                description: `Elegantly slim and beautifully crafted with a high-resolution touchscreen, exceptional keyboard, and tight Windows 11 integration. The Surface Laptop 5 is Microsoft's vision of the perfect Windows experience.`,
+                fullSpecs: `<strong>Processor:</strong> Intel Core i5-1235U<br><strong>Memory:</strong> 8GB LPDDR5<br><strong>Storage:</strong> 256GB SSD<br><strong>Display:</strong> 13.5" PixelSense Touch, 2256×1504<br><strong>Battery:</strong> 47.4Wh, up to 19 hours<br><strong>Ports:</strong> USB-C, USB-A, Surface Connect<br><strong>Weight:</strong> 1.27 kg`,
+                related: ['hp-elitebook-840', 'lenovo-thinkpad-x1', 'hp-spectre-x360']
+            },
+            'acer-swift-3': {
+                brand: 'Acer', name: 'Swift 3 SF314',
+                image: 'images/laptop-12.jpg',
+                price: 55000, rating: '4.4', reviews: 312,
+                specs: { Processor: 'AMD Ryzen 5 7530U', RAM: '8GB LPDDR4', Storage: '512GB SSD', Display: '14" FHD IPS', Battery: 'Up to 10 hrs', OS: 'Windows 11' },
+                description: `Lightweight, affordable, and reliable — the Acer Swift 3 is built for students who need a fast, portable laptop without breaking the bank. Military-grade durability meets everyday value in this popular campus companion.`,
+                fullSpecs: `<strong>Processor:</strong> AMD Ryzen 5 7530U<br><strong>Memory:</strong> 8GB LPDDR4<br><strong>Storage:</strong> 512GB SSD<br><strong>Display:</strong> 14" FHD IPS, 1920×1080<br><strong>Battery:</strong> 56Wh, up to 10 hours<br><strong>Ports:</strong> USB-A, USB-C, HDMI, SD Card<br><strong>Weight:</strong> 1.45 kg`,
+                related: ['lenovo-ideapad-5', 'asus-vivobook-15', 'dell-inspiron-15']
+            }
+        };
+
+        /* ══ LOAD PRODUCT FROM URL ══ */
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const product = products[id];
+        const content = document.getElementById('pageContent');
+
+        if (!product) {
+            // Product not found
+            content.innerHTML = `
+        <div class="not-found">
+          <h2>Product not found</h2>
+          <p>The laptop you're looking for doesn't exist or the link is broken.</p>
+          <a href="products.html">← Back to Products</a>
+        </div>`;
+        } else {
+            // Update page title
+            document.title = `${product.name} — PixelCart`;
+
+            // Build specs grid HTML
+            const specsHTML = Object.entries(product.specs).map(([label, value]) => `
+        <div class="spec-item">
+          <div class="spec-label">${label}</div>
+          <div class="spec-value">${value}</div>
+        </div>`).join('');
+
+            // Build related products HTML
+            const relatedHTML = product.related.map(rid => {
+                const r = products[rid];
+                if (!r) return '';
+                return `
+          <a href="product-detail.html?id=${rid}" class="mini-card">
+            <div class="mini-card-img">
+              <img src="${r.image}" alt="${r.name}"/>
+            </div>
+            <div class="mini-card-body">
+              <div class="mini-card-name">${r.name}</div>
+              <div class="mini-card-price">KES ${r.price.toLocaleString()}</div>
+            </div>
+          </a>`;
+            }).join('');
+
+            // Build description paragraphs
+            const descHTML = product.description.split('\n\n')
+                .map(p => `<p>${p.trim()}</p>`).join('');
+
+            content.innerHTML = `
+        <div class="detail-wrapper">
+          <div class="breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="products.html">Products</a> /
+            <span>${product.name}</span>
+          </div>
+
+          <div class="detail-grid">
+            <div class="detail-image-wrap">
+              <img src="${product.image}" alt="${product.name}"/>
+            </div>
+
+            <div class="detail-info">
+              <div class="detail-brand">${product.brand}</div>
+              <h1 class="detail-name">${product.name}</h1>
+
+              <div class="detail-meta">
+                <div class="stars">★★★★★</div>
+                <span class="rating-count">${product.rating} · ${product.reviews} reviews</span>
+                <span class="stock-badge">In Stock</span>
+              </div>
+
+              <div class="price-block">
+                <div class="detail-price">KES ${product.price.toLocaleString()}</div>
+                <div class="detail-price-note">Pay via M-Pesa · Free delivery in Nairobi</div>
+              </div>
+
+              <div class="specs-grid">${specsHTML}</div>
+
+              <div class="cart-row">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                  <div class="qty-num" id="qtyNum">1</div>
+                  <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+                <button class="btn-add" onclick="addToCart()">🛒 Add to Cart</button>
+              </div>
+
+              <a href="cart.html" class="btn-buy">⚡ Buy Now with M-Pesa</a>
+            </div>
+          </div>
+
+          <div class="tabs-section">
+            <div class="tabs">
+              <button class="tab-btn active" onclick="switchTab('desc',this)">Description</button>
+              <button class="tab-btn" onclick="switchTab('specs',this)">Full Specs</button>
+              <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews (${product.reviews})</button>
+            </div>
+            <div class="tab-content active" id="tab-desc">${descHTML}</div>
+            <div class="tab-content" id="tab-specs"><p>${product.fullSpecs}</p></div>
+            <div class="tab-content" id="tab-reviews">
+              <p style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--green);">${product.rating} / 5</p>
+              <p>Based on ${product.reviews} verified purchases from confirmed PixelCart buyers.</p>
+            </div>
+          </div>
+        </div>
+
+        <section class="related-section">
+          <div class="section-label">You may also like</div>
+          <h2 class="section-title">Related Laptops</h2>
+          <div class="related-grid">${relatedHTML}</div>
+        </section>`;
+
+            // Store current product for cart
+            window.currentProduct = product;
+            window.currentProductId = id;
+        }
+
+        /* ── Cart + tab functions ── */
+        Cart.updateBadge();
+
         let qty = 1;
         function changeQty(d) {
             qty = Math.max(1, qty + d);
             document.getElementById('qtyNum').textContent = qty;
         }
-        function addToCartDetail() {
-            Cart.add({ id: 'mbp-14-m3', name: 'MacBook Pro 14" M3', price: 185000, qty });
+
+        function addToCart() {
+            if (!window.currentProduct) return;
+            Cart.add({
+                id: window.currentProductId,
+                name: window.currentProduct.name,
+                price: window.currentProduct.price,
+                qty: qty
+            });
         }
+
         function switchTab(id, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('tab-' + id).classList.add('active');
             el.classList.add('active');
         }
-        document.getElementById('cartCount').textContent = Cart.count();
+
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').style.borderBottomColor =
+                window.scrollY > 20 ? 'rgba(62,207,142,0.15)' : 'var(--border)';
+        });
     </script>
+
 </body>
 
 </html>

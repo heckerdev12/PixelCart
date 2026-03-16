@@ -11,8 +11,8 @@ header('Access-Control-Allow-Methods: POST');
 require_once 'mpesa_auth.php';
 
 define('SHORTCODE',    '174379');
-define('PASSKEY',      'YOUR_PASSKEY_HERE');
-define('CALLBACK_URL', 'https://YOUR_NGROK_URL/PixelCart/api/mpesa_callback.php');
+define('PASSKEY',      'bfb279f9aa9b6f0bbde9fcd2eb5befc93dde975e4b1a3caec22f6e72deb53b3f');
+define('CALLBACK_URL', 'https://julene-lineable-concurringly.ngrok-free.dev/PixelCart/api/mpesa_callback.php');
 define('STK_URL',      'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest');
 
 // DB config
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $body    = json_decode(file_get_contents('php://input'), true);
-$phone   = '254708374149';
+$phone   = isset($body['phone'])  ? sanitizePhone($body['phone'])  : null;
 $amount  = isset($body['amount']) ? intval($body['amount'])        : null;
 $name    = isset($body['name'])   ? trim($body['name'])            : '';
 $email   = isset($body['email'])  ? trim($body['email'])           : '';
