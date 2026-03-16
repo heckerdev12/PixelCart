@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products — PixelCart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .page-header {
+            padding: 8rem var(--spacing-xl) 3rem;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(62, 207, 142, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(62, 207, 142, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+
+        .page-header-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--green);
+        }
+
+        .breadcrumb span {
+            color: var(--green);
+        }
+
+        .page-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-sub {
+            font-family: var(--font-body);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* LAYOUT */
+        .products-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 2.5rem;
+            padding: 3rem var(--spacing-xl);
+            align-items: start;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            position: sticky;
+            top: 5rem;
+        }
+
+        .filter-block {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .filter-block h3 {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .filter-option:hover {
+            color: var(--green);
+        }
+
+        .filter-option input[type="checkbox"] {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--bg);
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .filter-option input[type="checkbox"]:checked {
+            background: var(--green);
+            border-color: var(--green);
+        }
+
+        .filter-option input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #0a0a0a;
+            font-weight: 700;
+        }
+
+        .filter-option label {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .filter-count {
+            margin-left: auto;
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: var(--surface-raised);
+            padding: 0.1rem 0.5rem;
+            border-radius: 99px;
+        }
+
+        /* Price range */
+        .price-range-display {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--green);
+            cursor: pointer;
+        }
+
+        /* MAIN CONTENT */
+        .products-main {}
+
+        .products-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .results-count {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .results-count strong {
+            color: var(--text-primary);
+        }
+
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sort-select {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            padding: 0.55rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .sort-select:focus {
+            border-color: var(--green);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .view-btn {
+            width: 34px;
+            height: 34px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .view-btn.active,
+        .view-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        /* PRODUCT GRID */
+        .grid-view {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        .product-card:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .product-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .product-card:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .product-card:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .product-card:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .product-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(62, 207, 142, 0.3);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-image {
+            aspect-ratio: 16/10;
+            background: var(--surface-raised);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .card-image img {
+            transform: scale(1.04);
+        }
+
+        .card-img-placeholder {
+            font-size: 2.5rem;
+            color: rgba(255, 255, 255, 0.06);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: rgba(62, 207, 142, 0.15);
+            border: 1px solid rgba(62, 207, 142, 0.3);
+            color: var(--green);
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.22rem 0.6rem;
+            border-radius: 6px;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 30px;
+            height: 30px;
+            background: rgba(15, 15, 15, 0.7);
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .wishlist-btn:hover {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .card-body {
+            padding: 1.2rem;
+        }
+
+        .card-brand {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .card-name {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .card-specs {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .spec-tag {
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 0.65rem;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-price {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .card-price small {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-weight: 400;
+        }
+
+        .btn-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(62, 207, 142, 0.1);
+            border: 1px solid rgba(62, 207, 142, 0.2);
+            color: var(--green);
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 7px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
+        }
+
+        .btn-card:hover {
+            background: rgba(62, 207, 142, 0.18);
+            border-color: rgba(62, 207, 142, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 3rem 0 1rem;
+        }
+
+        .page-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+            text-decoration: none;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .page-btn.active {
+            background: rgba(62, 207, 142, 0.1);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .products-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+
+            .grid-view {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .grid-view {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-icon">P</div>PixelCart
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html" class="active">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-cart">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div class="page-header-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> / <span>Products</span>
+            </div>
+            <h1 class="page-title">All Laptops</h1>
+            <p class="page-sub">Browse our full collection — curated for every budget and use case</p>
+        </div>
+    </div>
+
+    <!-- PRODUCTS LAYOUT -->
+    <div class="products-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="filter-block">
+                <h3>Brand</h3>
+                <label class="filter-option"><input type="checkbox"> <label>Apple</label><span
+                        class="filter-count">12</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Dell</label><span
+                        class="filter-count">18</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Lenovo</label><span
+                        class="filter-count">15</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>HP</label><span
+                        class="filter-count">14</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Asus</label><span
+                        class="filter-count">10</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Microsoft</label><span
+                        class="filter-count">6</span></label>
+            </div>
+
+            <div class="filter-block">
+                <h3>Category</h3>
+                <label class="filter-option"><input type="checkbox"> <label>Business</label><span
+                        class="filter-count">22</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Gaming</label><span
+                        class="filter-count">16</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Student</label><span
+                        class="filter-count">20</span></label>
+                <label class="filter-option"><input type="checkbox"> <label>Creative</label><span
+                        class="filter-count">12</span></label>
+            </div>
+
+            <div class="filter-block">
+                <h3>Price (KES)</h3>
+                <div class="price-range-display">
+                    <span>KES 50,000</span><span>KES 300,000</span>
+                </div>
+                <input type="range" min="50000" max="300000" value="300000" id="priceRange">
+                <div
+                    style="text-align:center;font-family:var(--font-body);font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem;">
+                    Up to <span id="priceVal" style="color:var(--green);">KES 300,000</span>
+                </div>
+            </div>
+
+            <div class="filter-block">
+                <h3>RAM</h3>
+                <label class="filter-option"><input type="checkbox"> <label>8GB</label></label>
+                <label class="filter-option"><input type="checkbox"> <label>16GB</label></label>
+                <label class="filter-option"><input type="checkbox"> <label>32GB</label></label>
+                <label class="filter-option"><input type="checkbox"> <label>64GB+</label></label>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <div class="products-main">
+            <div class="products-toolbar">
+                <p class="results-count">Showing <strong>12</strong> of 75 laptops</p>
+                <div class="toolbar-right">
+                    <select class="sort-select">
+                        <option>Sort: Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Newest First</option>
+                    </select>
+                    <div class="view-toggle">
+                        <div class="view-btn active">⊞</div>
+                        <div class="view-btn">☰</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-view" id="productGrid">
+                <!-- Cards — will be replaced by PHP loop later -->
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <!-- <img src="images/macbook-pro.jpg" alt="MacBook Pro"> -->
+                        <div class="card-img-placeholder">💻</div>
+                        <span class="card-badge">Best Seller</span>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Apple</div>
+                        <div class="card-name">MacBook Pro 14" M3</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">M3</span><span class="spec-tag">16GB</span><span
+                                class="spec-tag">512GB</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 185,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <div class="card-img-placeholder">💻</div>
+                        <span class="card-badge">Popular</span>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Dell</div>
+                        <div class="card-name">XPS 15 OLED Touch</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">i9-13900H</span><span class="spec-tag">32GB</span><span
+                                class="spec-tag">1TB</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 220,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <div class="card-img-placeholder">💻</div>
+                        <span class="card-badge">Value Pick</span>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Lenovo</div>
+                        <div class="card-name">ThinkPad X1 Carbon</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">i7-1365U</span><span class="spec-tag">16GB</span><span
+                                class="spec-tag">512GB</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 140,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <div class="card-img-placeholder">💻</div>
+                        <span class="card-badge">Gaming</span>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Asus</div>
+                        <div class="card-name">ROG Zephyrus G14</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">Ryzen 9</span><span class="spec-tag">16GB</span><span
+                                class="spec-tag">RTX 4060</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 175,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <div class="card-img-placeholder">💻</div>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">HP</div>
+                        <div class="card-name">Spectre x360 14"</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">i7-1355U</span><span class="spec-tag">16GB</span><span
+                                class="spec-tag">512GB</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 155,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="card-image">
+                        <div class="card-img-placeholder">💻</div>
+                        <span class="card-badge">New</span>
+                        <div class="wishlist-btn">♡</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-brand">Microsoft</div>
+                        <div class="card-name">Surface Laptop 5</div>
+                        <div class="card-specs">
+                            <span class="spec-tag">i5-1235U</span><span class="spec-tag">8GB</span><span
+                                class="spec-tag">256GB</span>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-price">KES 95,000 <small>/ unit</small></div>
+                            <a href="product-detail.html" class="btn-card">View →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="pagination">
+                <a href="#" class="page-btn">←</a>
+                <a href="#" class="page-btn active">1</a>
+                <a href="#" class="page-btn">2</a>
+                <a href="#" class="page-btn">3</a>
+                <a href="#" class="page-btn">→</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Price range slider
+        const range = document.getElementById('priceRange');
+        const val = document.getElementById('priceVal');
+        if (range) {
+            range.addEventListener('input', () => {
+                val.textContent = 'KES ' + Number(range.value).toLocaleString();
+            });
+        }
+        // Cart badge
+        const cart = JSON.parse(localStorage.getItem('pixelcart_cart') || '[]');
+        document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
+    </script>
+</body>
+
+</html>

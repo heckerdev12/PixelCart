@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout — PixelCart</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        .checkout-wrapper {
+            padding: 7rem var(--spacing-xl) 4rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-heading {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .page-sub {
+            font-family: var(--font-body);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* STEPS */
+        .checkout-steps {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 3rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 0.75rem;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .step.active .step-num {
+            background: var(--green);
+            border-color: var(--green);
+            color: #0a0a0a;
+        }
+
+        .step.active {
+            color: var(--text-primary);
+        }
+
+        .step.done .step-num {
+            background: rgba(62, 207, 142, 0.15);
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .step-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin: 0 1rem;
+            max-width: 80px;
+        }
+
+        /* LAYOUT */
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* FORM */
+        .form-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-section-title {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.9rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .form-section-title .icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(62, 207, 142, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-input {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 0.75rem 1rem;
+            font-family: var(--font-body);
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(62, 207, 142, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .form-input.error {
+            border-color: #ff5555;
+        }
+
+        .form-hint {
+            font-family: var(--font-body);
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            margin-top: -0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* M-Pesa highlight box */
+        .mpesa-box {
+            background: rgba(62, 207, 142, 0.05);
+            border: 1px solid rgba(62, 207, 142, 0.2);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .mpesa-box-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .mpesa-logo {
+            width: 38px;
+            height: 38px;
+            background: var(--green);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .mpesa-box-header div strong {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .mpesa-box-header div span {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .mpesa-phone-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .phone-prefix {
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 0.75rem 1rem;
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            color: var(--text-primary);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+        }
+
+        .mpesa-phone-group .form-input {
+            flex: 1;
+        }
+
+        .mpesa-info {
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .mpesa-info strong {
+            color: var(--green);
+        }
+
+        /* STATUS: waiting for pin */
+        .mpesa-waiting {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .mpesa-waiting.visible {
+            display: flex;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(62, 207, 142, 0.2);
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .mpesa-waiting h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .mpesa-waiting p {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 260px;
+        }
+
+        /* ORDER SUMMARY */
+        .order-summary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.8rem;
+            position: sticky;
+            top: 5.5rem;
+        }
+
+        .summary-title {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-item-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .order-item-thumb {
+            width: 40px;
+            height: 40px;
+            background: var(--surface-raised);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .order-item-name {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .order-item-qty {
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .order-item-price {
+            font-family: var(--font-display);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .summary-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 1rem 0;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .summary-row span {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .summary-row strong {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .summary-total span {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .summary-total strong {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .btn-pay {
+            width: 100%;
+            padding: 1rem;
+            background: var(--green);
+            color: #0a0a0a;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-pay:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(62, 207, 142, 0.35);
+        }
+
+        .secure-note {
+            font-family: var(--font-body);
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 0.75rem;
+        }
+
+        .secure-note strong {
+            color: var(--green);
+        }
+
+        @media (max-width: 900px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .order-summary {
+                position: static;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <div class="logo-icon">P</div>PixelCart
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="cart.html" class="nav-cart">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                </svg>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="checkout-wrapper">
+        <h1 class="page-heading">Checkout</h1>
+        <p class="page-sub">Complete your order — payment via M-Pesa</p>
+
+        <!-- STEPS -->
+        <div class="checkout-steps">
+            <div class="step done">
+                <div class="step-num">✓</div>
+                <span>Cart</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step active">
+                <div class="step-num">2</div>
+                <span>Details</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <span>Payment</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <div class="checkout-layout">
+            <!-- FORM SIDE -->
+            <div>
+                <!-- Delivery Details -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <div class="icon">📦</div>
+                        Delivery Details
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input class="form-input" type="text" placeholder="John" id="fname" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input class="form-input" type="text" placeholder="Doe" id="lname" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input class="form-input" type="email" placeholder="john@example.com" id="email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Delivery Address</label>
+                        <input class="form-input" type="text" placeholder="e.g. Westlands, Nairobi" id="address" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Town / City</label>
+                            <input class="form-input" type="text" placeholder="Nairobi" id="city" />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone (for delivery)</label>
+                            <input class="form-input" type="tel" placeholder="0712 345 678" id="deliveryPhone" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- M-Pesa Payment -->
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <div class="icon">📱</div>
+                        M-Pesa Payment
+                    </div>
+
+                    <div class="mpesa-box">
+                        <div class="mpesa-box-header">
+                            <div class="mpesa-logo">💚</div>
+                            <div>
+                                <strong>Pay via M-Pesa STK Push</strong>
+                                <span>Enter your Safaricom number below</span>
+                            </div>
+                        </div>
+                        <div class="mpesa-phone-group">
+                            <div class="phone-prefix">🇰🇪 +254</div>
+                            <input class="form-input" type="tel" placeholder="712 345 678" id="mpesaPhone"
+                                maxlength="9" />
+                        </div>
+                        <div class="mpesa-info">
+                            A payment prompt will be sent to your phone. Enter your <strong>M-Pesa PIN</strong> to
+                            confirm. Your order will be placed instantly once payment is received.
+                        </div>
+                    </div>
+                    <p class="form-hint">📌 Make sure your M-Pesa is registered and active on this number</p>
+
+                    <!-- Waiting state — shown when STK push is sent (controlled by PHP later) -->
+                    <div class="mpesa-waiting" id="mpesaWaiting">
+                        <div class="spinner"></div>
+                        <h3>Waiting for M-Pesa confirmation...</h3>
+                        <p>Check your phone and enter your PIN to complete payment</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ORDER SUMMARY SIDE -->
+            <div class="order-summary">
+                <div class="summary-title">Your Order</div>
+
+                <div class="order-item">
+                    <div class="order-item-left">
+                        <div class="order-item-thumb">💻</div>
+                        <div>
+                            <div class="order-item-name">MacBook Pro 14" M3</div>
+                            <div class="order-item-qty">Qty: 1</div>
+                        </div>
+                    </div>
+                    <div class="order-item-price">KES 185,000</div>
+                </div>
+
+                <div class="order-item">
+                    <div class="order-item-left">
+                        <div class="order-item-thumb">💻</div>
+                        <div>
+                            <div class="order-item-name">Dell XPS 15 OLED</div>
+                            <div class="order-item-qty">Qty: 1</div>
+                        </div>
+                    </div>
+                    <div class="order-item-price">KES 220,000</div>
+                </div>
+
+                <hr class="summary-divider">
+
+                <div class="summary-row">
+                    <span>Subtotal</span><strong>KES 405,000</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery</span><strong style="color:var(--green)">Free</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Transaction Fee</span><strong>KES 0</strong>
+                </div>
+
+                <div class="summary-total">
+                    <span>Total</span>
+                    <strong>KES 405,000</strong>
+                </div>
+
+                <button class="btn-pay" onclick="initiateMpesa()">
+                    📱 Pay KES 405,000 via M-Pesa
+                </button>
+                <p class="secure-note">
+                    🔒 Secured by <strong>Safaricom Daraja API</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('cartCount').textContent = Cart.count();
+
+        function initiateMpesa() {
+            const phone = document.getElementById('mpesaPhone').value.trim();
+            const fname = document.getElementById('fname').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            // Basic validation
+            if (!fname) { alert('Please enter your name'); return; }
+            if (!address) { alert('Please enter delivery address'); return; }
+            if (!phone || phone.length < 9) {
+                document.getElementById('mpesaPhone').classList.add('error');
+                alert('Please enter a valid Safaricom number'); return;
+            }
+
+            // Show waiting state
+            document.getElementById('mpesaWaiting').classList.add('visible');
+
+            // TODO: Replace with actual PHP API call
+            // fetch('api/mpesa.php', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ phone: '254' + phone, amount: 405000 })
+            // })
+            // .then(r => r.json())
+            // .then(data => { ... handle response ... });
+
+            console.log('M-Pesa STK Push → 254' + phone);
+        }
+    </script>
+</body>
+
+</html>

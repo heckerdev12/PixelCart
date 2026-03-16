@@ -1,0 +1,30 @@
+2026-03-14 15:02:36
+{"Body":{"stkCallback":{"MerchantRequestID":"cf89-483d-bc6e-5d4633c861c435157","CheckoutRequestID":"ws_CO_14032026170209536708374149","ResultCode":1037,"ResultDesc":"No response from user."}}}
+
+❌ PAYMENT FAILED | Reason: No response from user.
+
+2026-03-15 22:02:43
+{"Body":{"stkCallback":{"MerchantRequestID":"65c5-4cd6-9ac5-d1bd36a953169105","CheckoutRequestID":"ws_CO_16032026000242113254708374","ResultCode":2035,"ResultDesc":"The customer does not exist."}}}
+
+❌ PAYMENT FAILED | Reason: The customer does not exist.
+
+2026-03-15 22:21:02
+{"Body":{"stkCallback":{"MerchantRequestID":"65c5-4cd6-9ac5-d1bd36a953169826","CheckoutRequestID":"ws_CO_16032026002034223708374149","ResultCode":1037,"ResultDesc":"No response from user."}}}
+
+❌ PAYMENT FAILED | Reason: No response from user.
+
+2026-03-15 22:32:00
+{"Body":{"stkCallback":{"MerchantRequestID":"65c5-4cd6-9ac5-d1bd36a9531610187","CheckoutRequestID":"ws_CO_16032026003158431708374149","ResultCode":1037,"ResultDesc":"DS timeout user cannot be reached."}}}
+
+✅ PAYMENT SUCCESS | Code: SANDBOX-374149 | Phone: 254708374149 | Amount: SANDBOX
+
+2026-03-15 22:47:12
+{"Body":{"stkCallback":{"MerchantRequestID":"137e-443a-bdaf-11f8e8588d837555","CheckoutRequestID":"ws_CO_16032026004646092708374149","ResultCode":1037,"ResultDesc":"No response from user."}}}
+
+✅ PAYMENT SUCCESS | Code: SANDBOX-374149 | Phone: 254708374149 | Amount: SANDBOX
+
+2026-03-16 06:46:29
+{"Body":{"stkCallback":{"MerchantRequestID":"e20f-44ca-b73e-c15db3bc7c1411562","CheckoutRequestID":"ws_CO_16032026084554577708374149","ResultCode":1037,"ResultDesc":"No response from user."}}}
+
+✅ PAYMENT SUCCESS | Code: SANDBOX-374149 | Phone: 254708374149 | Amount: SANDBOX
+
