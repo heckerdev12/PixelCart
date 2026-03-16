@@ -4,8 +4,8 @@
 //  Gets access token from Safaricom
 // ══════════════════════════════════════
 
-define('CONSUMER_KEY',    'YOUR_CONSUMER_KEY_HERE');
-define('CONSUMER_SECRET', 'YOUR_CONSUMER_SECRET_HERE');
+define('CONSUMER_KEY',    'consumer_key');
+define('CONSUMER_SECRET', 'consumer_secret');
 
 // Sandbox URL — swap for live when going to production
 define('MPESA_ENV', 'sandbox');
